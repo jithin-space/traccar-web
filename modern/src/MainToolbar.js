@@ -220,6 +220,13 @@ const MainToolbar = () => {
                   </ListItemIcon>
                   <ListItemText primary={t('statisticsTitle')} />
                 </ListItem>
+                <ListItem button onClick={() => history.push('/admin/vendors')}>
+                  <ListItemIcon>
+                    <BarChartIcon />
+                  </ListItemIcon>
+                  {/* TODO: Translation Support, Proper Icon */}
+                  <ListItemText primary={'Vendors'} />
+                </ListItem>
               </List>
             </>
           )}
