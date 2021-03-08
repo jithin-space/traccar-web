@@ -29,6 +29,8 @@ import ComputedAttributePage from './settings/ComputedAttributePage';
 import MaintenancesPage from './settings/MaintenancesPage';
 import MaintenancePage from './settings/MaintenancePage';
 import StatisticsPage from './admin/StatisticsPage';
+import VendorsPage from './admin/VendorsPage';
+import VendorPage from './VendorPage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -46,6 +48,7 @@ const App = () => {
               <Route exact path='/replay' component={ReplayPage} />
               <Route exact path='/position/:id?' component={PositionPage} />
               <Route exact path='/user/:id?' component={UserPage} />
+              <Route exact path='/vendor/:id?' component={VendorPage} />
               <Route exact path='/device/:id?' component={DevicePage} />
               <Route exact path='/settings/notifications' component={NotificationsPage} />
               <Route exact path='/settings/notification/:id?' component={NotificationPage} />
@@ -60,6 +63,7 @@ const App = () => {
               <Route exact path='/admin/server' component={ServerPage} />
               <Route exact path='/admin/users' component={UsersPage} />
               <Route exact path='/admin/statistics' component={StatisticsPage} />
+              <Route exact path='/admin/vendors' component={VendorsPage} />
               <Route exact path='/reports/route' component={RouteReportPage} />              
               <Route exact path='/reports/event' component={EventReportPage} />
               <Route exact path='/reports/trip' component={TripReportPage} />
