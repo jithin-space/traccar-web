@@ -30,6 +30,8 @@ import MaintenancesPage from './settings/MaintenancesPage';
 import MaintenancePage from './settings/MaintenancePage';
 import StatisticsPage from './admin/StatisticsPage';
 import VendorsPage from './admin/VendorsPage';
+import CompanyAdminsPage from './vendor/CompanyAdminsPage';
+import CompanyAdminPage from './vendor/CompanyAdminPage';
 import VendorPage from './VendorPage';
 
 const App = () => {
@@ -48,6 +50,8 @@ const App = () => {
               <Route exact path='/replay' component={ReplayPage} />
               <Route exact path='/position/:id?' component={PositionPage} />
               <Route exact path='/user/:id?' component={UserPage} />
+              <Route exact path='/vendor/:v_id/company' component={CompanyAdminsPage} />
+              <Route exact path='/vendor/:v_id/company/:c_id?' component={CompanyAdminPage} />
               <Route exact path='/vendor/:id?' component={VendorPage} />
               <Route exact path='/device/:id?' component={DevicePage} />
               <Route exact path='/settings/notifications' component={NotificationsPage} />

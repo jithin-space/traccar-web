@@ -57,6 +57,10 @@ const MainToolbar = () => {
   const adminEnabled = useSelector(state => state.session.user && state.session.user.administrator);
   const userId = useSelector(state => state.session.user && state.session.user.id);
 
+  const vendorEnabled = useSelector(state => state.session.user 
+    && state.session.user.attributes
+    && state.session.user.attributes.type === 'vendor'
+    );
   const openDrawer = () => { setDrawer(true) }
   const closeDrawer = () => { setDrawer(false) }
 
@@ -193,6 +197,22 @@ const MainToolbar = () => {
               <ListItemText primary={t('sharedMaintenance')} />
             </ListItem>
           </List>
+          {vendorEnabled && (
+            <>
+              <Divider />
+              <List
+               subheader={<ListSubheader>Company Administration</ListSubheader>}
+              >
+                <ListItem button onClick={() => history.push(`/vendor/${userId}/company`)}>
+                  <ListItemIcon>
+                    <BarChartIcon />
+                  </ListItemIcon>
+                  {/* TODO: Translation Support, Proper Icon */}
+                  <ListItemText primary={'Companies'} />
+                </ListItem>
+              </List>
+            </>
+          )}
           {adminEnabled && (
             <>
               <Divider />
