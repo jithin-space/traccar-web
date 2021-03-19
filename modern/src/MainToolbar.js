@@ -203,7 +203,7 @@ const MainToolbar = () => {
               <List
                subheader={<ListSubheader>Company Administration</ListSubheader>}
               >
-                <ListItem button onClick={() => history.push(`/vendor/${userId}/company`)}>
+                <ListItem button onClick={() => history.push(`/vendor/${userId}/companies`)}>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>
