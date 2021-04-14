@@ -6,7 +6,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useSelector } from 'react-redux';
-
 import t from './common/localization';
 import RemoveDialog from './RemoveDialog';
 
