@@ -66,7 +66,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
 
 const DevicesList = () => {
   return (
-    <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
+    <EditCollectionView content={DeviceView} editPath="/details/device" endpoint="devices" />
   );
 }
 
