@@ -9,6 +9,63 @@ import MobileWizard from './mobile-wizard';
 import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import VerticalStepper from './vertical-stepper';
+import { StepLabel } from '@material-ui/core';
+import clsx from 'clsx';
+import Check from '@material-ui/icons/Check';
+
+const useColorlibStepIconStyles = makeStyles({
+  root: {
+    backgroundColor: '#ccc',
+    zIndex: 1,
+    color: '#fff',
+    width: 50,
+    height: 25,
+    display: 'flex',
+    borderRadius: '5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  active: {
+    backgroundColor:
+      '#FFFFFF',
+    boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+    color: '#0000FF',
+    border: '2px solid #0066ff'
+  },
+  completed: {
+    backgroundColor:
+      '#0066ff',
+    color: '#FFFFFF',
+  },
+  completedTick: {
+    color: '#FFFFFF',
+    zIndex: 1,
+    fontSize: 18,
+  }
+});
+
+function ColorlibStepIcon(props) {
+  const classes = useColorlibStepIconStyles();
+  const { active, completed } = props;
+
+  const icons = {
+    1: '1',
+    2: '2',
+    3: '3',
+    4: '4'
+  }
+  return (
+    <div
+      className={clsx(classes.root, {
+        [classes.active]: active,
+        [classes.completed]: completed,
+      })}
+    >
+      {completed ? <Check className={classes.completedTick}/> : <div>{icons[String(props.icon)]}</div>}
+    </div>
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +95,7 @@ function getSteps() {
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return 'Step 1: Select campaign settings...';
+      return <VerticalStepper />;
     case 1:
       return 'Step 2: What is an ad group anyways?';
     case 2:
@@ -102,12 +159,11 @@ export default function Wizard() {
 
   return (
     <div className={classes.root}>
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper alternativeLabel activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label}>
-            <StepButton onClick={handleStep(index)} completed={completed[index]}>
-              {label}
-            </StepButton>
+            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+            
           </Step>
         ))}
       </Stepper>
@@ -131,15 +187,7 @@ export default function Wizard() {
                     <div>
                     <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                         Back
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                        className={classes.button}
-                    >
-                        Next
-                    </Button>
+                    </Button>                   
                     {activeStep !== steps.length &&
                         (completed[activeStep] ? (
                         <Typography variant="caption" className={classes.completed}>
@@ -147,7 +195,7 @@ export default function Wizard() {
                         </Typography>
                         ) : (
                         <Button variant="contained" color="primary" onClick={handleComplete}>
-                            {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
+                            {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Save & Continue'}
                         </Button>
                         ))}
                     </div>
