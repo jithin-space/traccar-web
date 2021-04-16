@@ -12,6 +12,7 @@ import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 import StepConnector from '@material-ui/core/StepConnector';
 import clsx from 'clsx';
+import Details from './vehicle/Details';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -20,17 +21,18 @@ const ColorlibConnector = withStyles({
     active: {
       '& $line': {
         backgroundImage:
-          'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+          'linear-gradient(to bottom, #784af4 0%, #9966ff 100%)',
       },
     },
     completed: {
       '& $line': {
         backgroundImage:
-          'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+          'linear-gradient(to bottom, #784af4 0%, #9966ff 100%)',
       },
     },
     line: {
-      height: 3,
+      height: 10,
+      width: 2,
       border: 0,
       backgroundColor: '#eaeaf0',
       borderRadius: 1,
@@ -51,12 +53,12 @@ const ColorlibConnector = withStyles({
     },
     active: {
       backgroundImage:
-        'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+        'linear-gradient(to bottom, #784af4 0%, #9966ff 100%)',
       boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
     },
     completed: {
       backgroundImage:
-        'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+        'linear-gradient(to bottom, #784af4 0%, #9966ff 100%)',
     },
   });
   
@@ -68,6 +70,10 @@ const ColorlibConnector = withStyles({
       1: <SettingsIcon />,
       2: <GroupAddIcon />,
       3: <VideoLabelIcon />,
+      4: <SettingsIcon />,
+      5: <SettingsIcon />,
+      6: <SettingsIcon />,
+      7: <SettingsIcon />,
     };
   
     return (
@@ -102,15 +108,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+  return ['Details', 'Customer Details', 'Specification', 'Engine and Transmission', 'Wheel & Tyres', 
+          'Fluids', 'Settings'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`;
+      return <Details/>;
     case 1:
       return 'An ad group contains one or more ads which target a shared set of keywords.';
     case 2:
@@ -118,6 +123,14 @@ function getStepContent(step) {
               and learn how to enhance your ads using features like ad extensions.
               If you run into any problems with your ads, find out how to tell if
               they're running and how to resolve approval issues.`;
+    case 3: 
+      return 'test'
+    case 4: 
+      return 'test' 
+    case 5: 
+      return 'test'
+    case 6: 
+      return 'test'               
     default:
       return 'Unknown step';
   }
@@ -142,7 +155,7 @@ export default function VerticalStepper() {
 
   return (
     <div className={classes.root}>
-      <Stepper activeStep={activeStep} orientation="vertical">
+      <Stepper activeStep={activeStep} orientation="vertical" connector={<ColorlibConnector />}>
         {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>

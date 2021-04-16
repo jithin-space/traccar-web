@@ -187,7 +187,15 @@ export default function Wizard() {
                     <div>
                     <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                         Back
-                    </Button>                   
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={classes.button}
+                    >
+                        Next
+                    </Button>
                     {activeStep !== steps.length &&
                         (completed[activeStep] ? (
                         <Typography variant="caption" className={classes.completed}>
