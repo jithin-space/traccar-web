@@ -13,6 +13,7 @@ import VerticalStepper from './vertical-stepper';
 import { StepLabel } from '@material-ui/core';
 import clsx from 'clsx';
 import Check from '@material-ui/icons/Check';
+import DeviceDetails from './DeviceDetails';
 
 const useColorlibStepIconStyles = makeStyles({
   root: {
@@ -89,15 +90,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Required', 'Extra', 'Vehicle Details', 'Connections'];
+  return ['Device Details', 'Vehicle Details',  'Connections'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <VerticalStepper />;
+      return <DeviceDetails />;
     case 1:
-      return 'Step 2: What is an ad group anyways?';
+      return <VerticalStepper />;
     case 2:
       return <MobileWizard />;
     default:

@@ -11,8 +11,10 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 import StepConnector from '@material-ui/core/StepConnector';
+import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import clsx from 'clsx';
 import Details from './vehicle/Details';
+import CustomerDetails from './vehicle/CustomerDetails';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -67,7 +69,7 @@ const ColorlibConnector = withStyles({
     const { active, completed } = props;
   
     const icons = {
-      1: <SettingsIcon />,
+      1: <DirectionsCarIcon />,
       2: <GroupAddIcon />,
       3: <VideoLabelIcon />,
       4: <SettingsIcon />,
@@ -117,7 +119,7 @@ function getStepContent(step) {
     case 0:
       return <Details/>;
     case 1:
-      return 'An ad group contains one or more ads which target a shared set of keywords.';
+      return <CustomerDetails />;
     case 2:
       return `Try out different ad text to see what brings in the most customers,
               and learn how to enhance your ads using features like ad extensions.
@@ -160,7 +162,7 @@ export default function VerticalStepper() {
           <Step key={label}>
             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
             <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
+              <div style={{display:"flex", justifyContent: "center", alignItems: "center"}}>{getStepContent(index)}</div>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button

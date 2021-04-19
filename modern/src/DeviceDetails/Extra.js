@@ -9,60 +9,46 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: 200,
+      width: 300,
     },
   },
 }));
 
-export default function AddIdentification() {
+export default function Extra() {
     const classes = useStyles();
     const [error, setError] = useState(false);
     return (
       <div>
-        <h3>Identification</h3>
+        <h3>Extra</h3>
        <form className={classes.root} noValidate autoComplete="off">
         <TextField
           error={error}
-          required
           id="outlined-error-helper-text"
-          label="Vehicle Name"
+          label="Group"
           variant="outlined"
         />
         <TextField
           error={error}
-          required
           id="outlined-error-helper-text"
-          label="Device ID"
+          label="Phone"
           variant="outlined"
         />
-         <TextField
+        <TextField
           error={error}
           id="outlined-error-helper-text"
-          label="Device SIM Number"
+          label="Model"
           variant="outlined"
         />
-          <TextField
+        <TextField
           error={error}
           id="outlined-error-helper-text"
-          label="Date of fitting"
+          label="Contact"
           variant="outlined"
         />
-           <TextField
+            <TextField
           error={error}
           id="outlined-error-helper-text"
-          label="Device Expiry Date"
-          variant="outlined"
-        />
-           <TextField
-          error={error}
-          id="outlined-error-helper-text"
-          label="Engine Number"
-          variant="outlined"
-        />
-           <TextField
-          error={error}
-          id="outlined-error-helper-text"
-          label="Chasis Number"
+          label="Category"
           variant="outlined"
         />
       </form>
