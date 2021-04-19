@@ -14,47 +14,23 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function AddIdentification() {
+export default function ProofOfAddress() {
     const classes = useStyles();
     const [error, setError] = useState(false);
     return (
      <div>
-     <h3>Classifcation</h3>   
+     <h3>Proof of Address</h3>   
      <form className={classes.root} noValidate autoComplete="off">
         <TextField
           required
           id="outlined-error-helper-text"
-          label="Status"
+          label="Address Proof Type"
           variant="outlined"
         />
         <TextField
           required
           id="outlined-error-helper-text"
-          label="Company"
-          variant="outlined"
-        />
-        <TextField
-          required
-          id="outlined-error-helper-text"
-          label="Department"
-          variant="outlined"
-        />
-         <TextField
-          required
-          id="outlined-error-helper-text"
-          label="Operator"
-          variant="outlined"
-        />
-         <TextField
-          required
-          id="outlined-error-helper-text"
-          label="Assign User"
-          variant="outlined"
-        />
-         <TextField
-          required
-          id="outlined-error-helper-text"
-          label="Ownership"
+          label="Address Proof Number"
           variant="outlined"
         />
       </form>

@@ -49,7 +49,6 @@ const EditItemView = ({ children, endpoint, item, setItem }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-
     if (response.ok) {
       history.goBack();
     }

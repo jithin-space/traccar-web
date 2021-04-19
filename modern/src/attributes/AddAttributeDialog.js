@@ -43,7 +43,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
             return option && typeof option === 'object' ? option.name : option;
           }}
           renderOption={option => option.name}
-          freeSolo
+          
           renderInput={(params) => (
             <TextField {...params} label={t('sharedAttribute')} variant="filled" margin="normal" />
           )}
@@ -52,7 +52,8 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           variant="filled"
           margin="normal"
           fullWidth
-          disabled={key in definitions}>
+          disabled={key in definitions}
+          >
           <InputLabel>{t('sharedType')}</InputLabel>
           <Select
             value={type}
