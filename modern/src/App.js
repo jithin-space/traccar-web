@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { Switch, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MainPage from './MainPage';
@@ -36,6 +36,11 @@ import VendorPage from './VendorPage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
+
+useEffect(() => {
+   document.title = "RevitsOne"
+}, []);
+
 
   return (
     <>

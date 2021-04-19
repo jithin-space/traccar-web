@@ -42,10 +42,10 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: "url(/login.gif)",
     backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[0]
-        : theme.palette.grey[900],
+    backgroundColor: 'white',
+      // theme.palette.type === "dark"
+      //   ? theme.palette.grey[0]
+      //   : theme.palette.grey[900],
     // backgroundSize: 'contain',
     backgroundPosition: "center",
   },
