@@ -140,6 +140,12 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportStops')} />
             </ListItem>
+            <ListItem button onClick={() => history.push('/reports/speed')}>
+              <ListItemIcon>
+                <PauseCircleFilledIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Speed Report'} />
+            </ListItem>
             <ListItem button onClick={() => history.push('/reports/summary')}>
               <ListItemIcon>
                 <FormatListBulletedIcon />
