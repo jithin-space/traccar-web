@@ -76,6 +76,7 @@ const App = () => {
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
               <Route exact path='/reports/chart' component={ChartReportPage} />
+
             </Switch>
           )}
         </Route>
