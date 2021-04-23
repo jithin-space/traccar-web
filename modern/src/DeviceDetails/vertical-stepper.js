@@ -9,11 +9,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import StepConnector from '@material-ui/core/StepConnector';
 import clsx from 'clsx';
-import Extra from './DeviceDetails/Extra';
-import AddIdentification from './vehicle/Details/AddIdentification';
-import AddClassification from './vehicle/Details/AddClassification';
+import Required from './Required';
+import Extra from './Extra';
 import ChatIcon from '@material-ui/icons/Chat';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import { useHistory, useParams } from 'react-router-dom';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -120,26 +120,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Identification', 'Classification', 'Specification', 'Engine and Transmission', 'Wheel & Tyres', 
-          'Fluids', 'Settings'];
+  return ['Primary', 'Extra'];
 }
 
-function getStepContent(step) {
+function getStepContent(step, handleFormSave, handleBack, buttonText, activeStep) {
   switch (step) {
     case 0:
-      return <AddIdentification/>;
+      return <Required 
+               handleFormSave={handleFormSave}
+              
+               submitButton={buttonText}
+               activeStep={activeStep}
+              />;
     case 1:
-      return <AddClassification />;
-    case 2:
-      return <Extra />;
-    case 3: 
-      return 'test'
-    case 4: 
-      return 'test' 
-    case 5: 
-      return 'test'
-    case 6: 
-      return 'test'               
+      return <Extra 
+              handleFormSave={handleFormSave}
+              handleBack={handleBack}
+              submitButton={buttonText}
+              activeStep={activeStep}
+              
+              />;         
     default:
       return 'Unknown step';
   }
@@ -149,8 +149,29 @@ export default function DeviceVerticalStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
+  const history = useHistory();
+  const { id } = useParams();
 
+  const handleSave = async (value) => {
+    // let endpoint = "devices"
+    // let url = `/api/${endpoint}`;
+    // if (id) {
+    //   url += `/${id}`;
+    // }
+
+    // const response = await fetch(url, {
+    //   method: !id ? 'POST' : 'PUT',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(value),
+    // });
+    // if (response.ok) {
+    //   history.goBack();
+    // }
+    handleNext();
+  };
+  
   const handleNext = () => {
+    //alert(JSON.stringify(values, null, 2));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -172,27 +193,9 @@ export default function DeviceVerticalStepper() {
             </StepLabel>
             <StepContent> 
             <Paper elevation={2} className={classes.formContainer}>
-                {getStepContent(index)}
-              </Paper>
-              <div className={classes.actionsContainer}>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Prev
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Save'}
-                  </Button>
-                </div>
-              </div>   
+                {getStepContent(index, handleSave,handleBack, activeStep === steps.length - 1 ? 'Finish' : 'Save')}
+                
+            </Paper>
 
             </StepContent>
           </Step>

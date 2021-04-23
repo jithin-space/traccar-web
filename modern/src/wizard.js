@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -9,21 +10,23 @@ import MobileWizard from './mobile-wizard';
 import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import VerticalStepper from './vertical-stepper';
+import VehicleVerticalStepper from './vertical-stepper';
 import { StepLabel } from '@material-ui/core';
 import clsx from 'clsx';
 import Check from '@material-ui/icons/Check';
-import DeviceDetails from './DeviceDetails';
+import DeviceVerticalStepper from './DeviceDetails';
+import Container from '@material-ui/core/Container';
+import MainToolbar from './MainToolbar';
 
 const useColorlibStepIconStyles = makeStyles({
   root: {
     backgroundColor: '#ccc',
     zIndex: 1,
     color: '#fff',
-    width: 50,
+    width: 45,
     height: 25,
     display: 'flex',
-    borderRadius: '5%',
+    borderRadius: '8%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -32,7 +35,9 @@ const useColorlibStepIconStyles = makeStyles({
       '#FFFFFF',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
     color: '#0000FF',
-    border: '2px solid #0066ff'
+    border: '2px solid #0066ff',
+    width: 55,
+    height: 27,
   },
   completed: {
     backgroundColor:
@@ -86,19 +91,28 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'  
-  }
+  },
+  container: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
-function getSteps() {
-  return ['Device Details', 'Vehicle Details',  'Connections'];
+function getSteps(editMode) {
+  let steps = ['Device Details', 'Vehicle Details'];
+  if (editMode) {
+    steps.push('Connections') 
+  }
+  return steps;
 }
 
-function getStepContent(step) {
+function getStepContent(step, handleFormSave) {
   switch (step) {
     case 0:
-      return <DeviceDetails />;
+      return <DeviceVerticalStepper
+                handleFormSave={handleFormSave}
+            />;
     case 1:
-      return <VerticalStepper />;
+      return <VehicleVerticalStepper />;
     case 2:
       return <MobileWizard />;
     default:
@@ -110,7 +124,13 @@ export default function Wizard() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
-  const steps = getSteps();
+  
+  const [firstFormData, setFirstFormData] = useState({});
+
+  const [item, setItem] = useState({});
+  const history = useHistory();
+  const { id } = useParams();
+  const steps = getSteps(id);
 
   const totalSteps = () => {
     return steps.length;
@@ -127,6 +147,27 @@ export default function Wizard() {
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
+  const handleSave = async (value) => {
+    // let endpoint = "devices"
+    // let url = `/api/${endpoint}`;
+    // if (id) {
+    //   url += `/${id}`;
+    // }
+
+    // const response = await fetch(url, {
+    //   method: !id ? 'POST' : 'PUT',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(value),
+    // });
+    // if (response.ok) {
+    //   history.goBack();
+    // }
+    handleNext();
+  };
+  const handleFirstForm = (value) => {
+    setFirstFormData(value);
+    handleNext();
+  }
 
   const handleNext = () => {
     const newActiveStep =
@@ -159,10 +200,13 @@ export default function Wizard() {
   };
 
   return (
-    <div className={classes.root}>
+    <>
+    <MainToolbar />
+    <Container maxWidth='xl' className={classes.container}>
+     <div className={classes.root}>
       <Stepper alternativeLabel activeStep={activeStep}>
         {steps.map((label, index) => (
-          <Step key={label}>
+          <Step key={label}>  
             <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
             
           </Step>
@@ -180,8 +224,8 @@ export default function Wizard() {
           <div >
               <Grid container spacing={3}>
                     <Grid item xs={12}>
-                    <Paper elevation={3} className={classes.paper}>
-                        {getStepContent(activeStep)}
+                    <Paper elevation={0} className={classes.paper}>
+                        {getStepContent(activeStep, handleFirstForm)}
                     </Paper>
                     </Grid>
                     <Grid item xs={12}>
@@ -214,6 +258,8 @@ export default function Wizard() {
             
         )}
       </div>
-    </div>
+      </div>
+      </Container>
+      </>
   );
 }
