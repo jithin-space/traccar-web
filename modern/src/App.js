@@ -38,7 +38,7 @@ const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
 
 useEffect(() => {
-   document.title = "RevitsOne"
+   document.title = "Fleetrac"
 }, []);
 
 

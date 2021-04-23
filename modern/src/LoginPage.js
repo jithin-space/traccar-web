@@ -40,13 +40,13 @@ const useStyles = makeStyles((theme) => ({
     height: "100vh",
   },
   image: {
-    backgroundImage: "url(/login.gif)",
+    backgroundImage: "url(/fleetrac-HD.png)",
     backgroundRepeat: "no-repeat",
     backgroundColor: 'white',
       // theme.palette.type === "dark"
       //   ? theme.palette.grey[0]
       //   : theme.palette.grey[900],
-    // backgroundSize: 'contain',
+    backgroundSize: 'cover',
     backgroundPosition: "center",
   },
   paper: {
@@ -143,8 +143,9 @@ export default function SignInSide() {
         <div className={classes.paper}>
           <img
             className={classes.logo}
-            src="/revitsone_logo.png"
-            alt="RevitsOne"
+            src="/fleetrac-logo-PNG.png"
+            alt="Fleetrac"
+            width="30%"
           />
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />

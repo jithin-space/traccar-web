@@ -83,7 +83,7 @@ const MainToolbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.flex}>
-            Traccar
+            Fleetrac
           </Typography>
           <Button color="inherit" onClick={handleLogout}>{t('loginLogout')}</Button>
         </Toolbar>
