@@ -27,7 +27,7 @@ const tutorialSteps = [
 ];
 
 
-export default function CardStepper() {
+export default function Connections() {
   return (
     <div>
       

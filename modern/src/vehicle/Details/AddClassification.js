@@ -48,18 +48,31 @@ const useStyles = makeStyles((theme) => ({
   });
   
 
-export default function AddClassification({handleFormSave, handleBack, activeStep}) {
+export default function AddClassification({handleFormSave, handleBack, activeStep, editItem}) {
     const classes = useStyles();
+    const initialValues = {
+      status: '',
+      company: '',
+      department: '',
+      operator: '',
+      assignUser: '',
+      ownership: ''
+    
+    };
+
+   if(editItem) {
+    Object.keys(editItem).map(item => 
+      Object.keys(initialValues).map(function(key, index) {
+        if(key === item) {
+         initialValues[key] = editItem[key];
+        }   
+      })
+  );
+   }
+
     const formik = useFormik({
-      initialValues: {
-        status: '',
-        company: '',
-        department: '',
-        operator: '',
-        assignUser: '',
-        ownership: ''
-       
-      },
+      enableReinitialize: true,
+      initialValues: initialValues,
       validationSchema: validationSchema,
       onSubmit: (values) => {
        //alert(JSON.stringify(values, null, 2))

@@ -12,10 +12,12 @@ import StepConnector from '@material-ui/core/StepConnector';
 import clsx from 'clsx';
 import AddIdentification from './vehicle/Details/AddIdentification';
 import AddClassification from './vehicle/Details/AddClassification';
+import AddCustomerDetails from './vehicle/CustomerDetails';
 import AddSettings from './vehicle/Settings';
 import ChatIcon from '@material-ui/icons/Chat';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import SettingsIcon from '@material-ui/icons/Settings';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -79,7 +81,9 @@ const ColorlibConnector = withStyles({
     const icons = {
       1: <ChatIcon fontSize="small"/>,
       2: <AddBoxIcon fontSize="small"/>,
-      3: <SettingsIcon fontSize="small" />,
+      3: <AssignmentIndIcon fontSize="small" />,
+      4: <SettingsIcon fontSize="small" />,
+      
 
     };
   
@@ -127,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Identification', 'Classification', 'Settings'];
+  return ['Identification', 'Classification','Customer Details', 'Settings'];
 }
 
 function getStepContent(
@@ -135,8 +139,10 @@ function getStepContent(
                 handleIdentificationForm,
                 handleClassificationForm, 
                 handleSettingsForm,
+                handleCustomerForm,
                 handleBack, 
-                activeStep
+                activeStep,
+                editItem
               ) 
                   {
   switch (step) {
@@ -144,31 +150,43 @@ function getStepContent(
       return <AddIdentification
             handleFormSave={handleIdentificationForm}
             activeStep={activeStep}
+            editItem={editItem}
             />;
     case 1:
       return <AddClassification 
                 handleFormSave={handleClassificationForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
+                editItem={editItem}
               />;
-    case 2:
+    case 2: 
+      return <AddCustomerDetails 
+              handleFormSave={handleCustomerForm}
+              handleBack={handleBack}
+              activeStep={activeStep}
+              editItem={editItem}
+              />          
+    case 3:
       return  <AddSettings 
               handleFormSave={handleSettingsForm}
               handleBack={handleBack}
               activeStep={activeStep}
+              editItem={editItem}
             />;               
     default:
       return 'Unknown step';
   }
 }
 
-export default function VehicleVerticalStepper({ firstFormData, handleSubmit, goBackStep }) {
+export default function VehicleVerticalStepper({ firstFormData, handleSubmit, goBackStep, editItem }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [classificationData, setClassificationData] = useState({});
   const [identificationData, setIdentificationData] = useState({});
   const [settingsData, setSettingsData] = useState({});
+  const [customerData, setCustomerData] = useState({});
   const [finalData, setFinalData] = useState({});
+
   const steps = getSteps();
 
   const handleClassificationData = async (value) => {
@@ -183,11 +201,17 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
     setSettingsData(value);
     handleNext();
   }
+  const handleCustomerData = async(value) => {
+    setCustomerData(value);
+    handleNext();
+  }
+
   const handleFinalSubmission = async(values) => {
     let attributesData = {
       attributes : {
         ...identificationData,
         ...classificationData,
+        ...customerData,
         ...settingsData,
       }
     }
@@ -196,7 +220,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
       ...attributesData
     }
     //setFinalData({ finalData });
-    handleSubmit(finalData);
+    handleSubmit(finalData);                    //fired at wizard.js
     //alert(JSON.stringify(finalData, null, 2));
   }
   const goBackToFirstForm = async() => {
@@ -229,8 +253,10 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
                   handleIdentificationData,
                   handleClassificationData,
                   handleSettingsData,
+                  handleCustomerData,
                   handleBack, 
-                  activeStep
+                  activeStep,
+                  editItem.attributes,
                    )}
               </Paper>
 

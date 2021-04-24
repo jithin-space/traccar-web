@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
@@ -55,39 +55,57 @@ const useStyles = makeStyles((theme) => ({
 
 const validationSchema = yup.object({
   name: yup
-    .string('Enter device name')
+    .string('value must be a string')
     .required('required'),
   uniqueId: yup
     .number('Enter a uniqueId')
     .integer('Id should be an Integer')
     .required('required'),
   groupId: yup
-    .number()
+    .number('value must be a number')
     .integer('Id should be an Integer'),
   phone: yup
-    .string(),
+    .string('value must be a string'),
   model: yup
-     .string(),
+     .string('value must be a string'),
   contact: yup
-     .string(),
+     .string('value must be a string'),
   category: yup
-     .string(),
+     .string('value must be a string'),
+  disabled: yup
+     .boolean(),   
 });
 
 
-export default function DeviceDetails({ handleFormSave }) {
+export default function DeviceDetails({ handleFormSave, editItem}) {
   const classes = useStyles();
+  const initialValues = {
+    name: '',
+    uniqueId: '',
+    groupId: '',
+    phone: '',
+    model: '',
+    contact: '',
+    category: '',
+    disabled: false
+  };
+  if (editItem)
+   { 
+     Object.keys(editItem).map(item => 
+         Object.keys(initialValues).map(function(key, index) {
+             if(key === item) {
+               initialValues[key] = editItem[key];
+              }   
+      })
+     );
+  }
+  
   const formik = useFormik({
-    initialValues: {
-      groupId: '',
-      phone: '',
-      model: '',
-      contact: '',
-      category: '',
-      disabled: false
-    },
+    enableReinitialize: true,
+    initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      //alert(JSON.stringify(values, null, 2));
       handleFormSave(values);
     }
 

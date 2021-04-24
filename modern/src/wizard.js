@@ -6,7 +6,7 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import MobileWizard from './mobile-wizard';
+import Connections from './Connections';
 import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -17,6 +17,7 @@ import Check from '@material-ui/icons/Check';
 import DeviceVerticalStepper from './DeviceDetails';
 import Container from '@material-ui/core/Container';
 import MainToolbar from './MainToolbar';
+import { useEffectAsync } from './reactHelper';
 
 const useColorlibStepIconStyles = makeStyles({
   root: {
@@ -105,8 +106,8 @@ function getSteps(editMode) {
   return steps;
 }
 
-function getStepContent(editMode, step, handleFormSave, firstFormData, handleSubmitForm, goBackStep) {
-  if(!editMode) {
+function getStepContent(editItem, step, handleFormSave, firstFormData, handleSubmitForm, goBackStep, handleInitialValue) {
+  if(!editItem) {
     switch (step) {
       case 0:
         return <DeviceVerticalStepper
@@ -125,16 +126,19 @@ function getStepContent(editMode, step, handleFormSave, firstFormData, handleSub
     switch (step) {
       case 0:
         return <DeviceVerticalStepper
-                  handleFormSave={handleFormSave}
+                  editItem={editItem}
+                  initialValues={handleInitialValue}
+                  handleFormSave={handleFormSave} //change to handleFormSave
               />;
       case 1:
         return <VehicleVerticalStepper
+                  editItem={editItem}
                   firstFormData={firstFormData}
                   handleSubmit={handleSubmitForm}
-                  
+                  goBackStep={goBackStep}
                 />;
       case 2:
-        return <MobileWizard />;
+        return  <Connections />;
       default:
         return 'Unknown step';
     }
@@ -148,11 +152,23 @@ export default function Wizard() {
   const [completed, setCompleted] = React.useState({});
   
   const [firstFormData, setFirstFormData] = useState({});
-
-  const [item, setItem] = useState({});
+  const [itemtoEdit, setItemtoEdit] = useState({}); //item to edit is set here
   const history = useHistory();
   const { id } = useParams();
   const steps = getSteps(id);
+
+  useEffectAsync(async () => {
+    let endpoint="devices";
+    if (id) {
+      const response = await fetch(`/api/${endpoint}/${id}`);
+      if (response.ok) {
+        setItemtoEdit(await response.json());
+      }
+    } else {
+      setItemtoEdit({});
+    }
+  }, [id]);
+
 
   const totalSteps = () => {
     return steps.length;
@@ -175,8 +191,8 @@ export default function Wizard() {
     let url = `/api/${endpoint}`;
     if (id) {
       url += `/${id}`;
+      value.id = id;
     }
-
     const response = await fetch(url, {
       method: !id ? 'POST' : 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -187,6 +203,7 @@ export default function Wizard() {
     }
     //alert(JSON.stringify(value, null, 2));
   };
+
   const handleFirstForm = (value) => {
     setFirstFormData(value);
     handleNext();
@@ -222,6 +239,7 @@ export default function Wizard() {
     setCompleted({});
   };
 
+
   return (
     <>
     <MainToolbar />
@@ -249,12 +267,12 @@ export default function Wizard() {
                     <Grid item xs={12}>
                     <Paper elevation={0} className={classes.paper}>
                         {getStepContent(
-                          id,
+                          itemtoEdit,
                           activeStep, 
                           handleFirstForm, 
                           firstFormData, 
                           handleFinalSubmit,
-                          handleBack,
+                          handleBack,                         
                           )}
                     </Paper>
                     </Grid>

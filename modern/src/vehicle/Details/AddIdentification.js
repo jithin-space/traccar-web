@@ -5,6 +5,11 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import vehicleTypesList from './vehicleTypes';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,6 +24,11 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
       
     },
+    formControl: {
+      margin: theme.spacing(2),
+      minWidth: 220,
+      maxHeight: '100px'
+    },
     actionsContainer: {
       display: 'flex',
       flexDirection: 'row',
@@ -29,37 +39,51 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-      vehicleName: yup
-      .string('Enter device name')
-      .required('required'),
-      deviceId: yup
-      .string('')
-      .required('required'),
-      deviceSIMNumber: yup
-      .string()
-      .required('required'),
-      dateOfFitting: yup
-      .string(),
-      deviceExpiryDate: yup
-      .string(),  
-      engineNumber: yup
-      .string(),
- 
+
+      vehicleName: yup.string('value must be a string').required('required'),
+      deviceId: yup.string('value must be a string').required('required'),
+      deviceSIMNumber: yup.string('value must be a string'),
+      dateOfFitting: yup.string('value must be a string'),
+      deviceExpiryDate: yup.string('value must be a string'),  
+      engineNumber: yup.string('value must be a string'),
+      vehicleType: yup.string('value must be a string').required('required'),
+      chasisNumber: yup.string('value must be a string'),
+      licensePlate: yup.string('value must be a string').required('required'),
+      make: yup.string('value must be a string').required('required'),
+      calibrationDate: yup.date(),
   });
   
 
-export default function AddIdentification({handleFormSave, activeStep}) {
+export default function AddIdentification({handleFormSave, activeStep, editItem}) {
     const classes = useStyles();
+    const initialValues = {
+      vehicleName: '',
+      deviceId: '',
+      deviceSIMNumber: '',
+      dateOfFitting: '',
+      deviceExpiryDate: '',
+      engineNumber: '',
+      chasisNumber: '',
+      licensePlate: '',
+      make: '',
+      calibrationDate: '',
+      vehicleType: ''
+    
+    };
+
+  if(editItem){
+    Object.keys(editItem).map(item => 
+      Object.keys(initialValues).map(function(key, index) {
+        if(key === item) {
+         initialValues[key] = editItem[key];
+        }   
+      })
+  );
+  }
+
     const formik = useFormik({
-      initialValues: {
-        vehicleName: '',
-        deviceId: '',
-        deviceSIMNumber: '',
-        dateOfFitting: '',
-        deviceExpiryDate: '',
-        engineNumber: ''
-       
-      },
+      enableReinitialize: true,
+      initialValues: initialValues,
       validationSchema: validationSchema,
       onSubmit: (values) => {
        //alert(JSON.stringify(values, null, 2))
@@ -73,9 +97,8 @@ export default function AddIdentification({handleFormSave, activeStep}) {
      <form className={classes.root} onSubmit={formik.handleSubmit}>
         <TextField
            fullWidth
-           required
            id="vehicleName"
-           label="Vehicle Name"
+           label="Vehicle Name *"
            name="vehicleName"
            value={formik.values.vehicleName}
            onChange={formik.handleChange}
@@ -86,10 +109,9 @@ export default function AddIdentification({handleFormSave, activeStep}) {
         />
          <TextField
           fullWidth
-          required
           id="deviceId"
           name="deviceId"
-          label="Device Id"
+          label="Device Id *"
           variant="outlined"
           size="small"
           value={formik.values.deviceId}
@@ -100,7 +122,6 @@ export default function AddIdentification({handleFormSave, activeStep}) {
         />
          <TextField
           fullWidth
-          required
           id="deviceSIMNumber"
           name="deviceSIMNumber"
           label="Device SIM Number"
@@ -151,6 +172,76 @@ export default function AddIdentification({handleFormSave, activeStep}) {
           helperText={formik.touched.engineNumber && formik.errors.engineNumber}
 
         />
+            <TextField
+          fullWidth
+          id="chasisNumber"
+          name="chasisNumber"
+          label="Chasis Number"
+          variant="outlined"
+          size="small"
+          value={formik.values.chasisNumber}
+          onChange={formik.handleChange}
+          error={formik.touched.chasisNumber && Boolean(formik.errors.chasisNumber)}
+          helperText={formik.touched.chasisNumber && formik.errors.chasisNumber}
+
+          
+        />
+          <TextField
+          fullWidth
+   
+          id="licensePlate"
+          name="licensePlate"
+          label="License Plate *"
+          variant="outlined"
+          size="small"
+          value={formik.values.licensePlate}
+          onChange={formik.handleChange}
+          error={formik.touched.licensePlate && Boolean(formik.errors.licensePlate)}
+          helperText={formik.touched.licensePlate && formik.errors.licensePlate}
+
+        />
+        <TextField
+          fullWidth
+          id="make"
+          name="make"
+          label="Make *"
+          variant="outlined"
+          size="small"
+          value={formik.values.make}
+          onChange={formik.handleChange}
+          error={formik.touched.make && Boolean(formik.errors.make)}
+          helperText={formik.touched.make && formik.errors.make}
+
+        />
+        <TextField
+          fullWidth
+          id="calibrationDate"
+          name="calibrationDate"
+          label="Calibration Date"
+          variant="outlined"
+          size="small"
+          value={formik.values.calibrationDate}
+          onChange={formik.handleChange}
+          error={formik.touched.calibrationDate && Boolean(formik.errors.calibrationDate)}
+          helperText={formik.touched.calibrationDate && formik.errors.calibrationDate}
+
+        />
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Type</InputLabel>
+                  <Select
+                    id="vehicleType"
+                    name="vehicleType"
+                    value={formik.values.vehicleType}
+                    onChange={formik.handleChange}
+                    label="Type *"
+                    error={formik.touched.vehicleType && Boolean(formik.errors.vehicleType)}
+                    helperText={formik.touched.vehicleType && formik.errors.vehicleType}
+                   >
+                   {vehicleTypesList.map((item) => 
+                    <MenuItem value={item}>{item}</MenuItem>
+                   )}
+                  </Select>
+              </FormControl> 
         
         <div className={classes.actionsContainer}>
                 
