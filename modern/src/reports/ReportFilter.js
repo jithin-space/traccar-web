@@ -13,7 +13,7 @@ import t from "../common/localization";
 import { useSelector } from "react-redux";
 import moment from "moment";
 
-const ReportFilter = ({ children, handleSubmit, showOnly }) => {
+const ReportFilter = ({ children, handleSubmit, handleDeviceSelect= null, showOnly }) => {
   const devices = useSelector((state) => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState("today");
@@ -66,11 +66,19 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
     );
   };
 
+  const handleDeviceChange = (deviceId) => {
+    if(deviceId) {
+    setDeviceId(deviceId);
+    if(handleDeviceSelect)
+      handleDeviceSelect(deviceId);
+    }
+  }
+
   return (
     <>
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t("reportDevice")}</InputLabel>
-        <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+        <Select value={deviceId} onChange={(e) => handleDeviceChange(e.target.value)}>
           {devices.map((device) => (
             <MenuItem value={device.id}>{device.name}</MenuItem>
           ))}

@@ -32,7 +32,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
-
+import { useSelector } from "react-redux";
 import t from "../common/localization";
 import {
   formatDistance,
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
   },
 }));
-const Filter = ({ setItems }) => {
+const Filter = ({ setDevice, devices, setItems }) => {
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({ deviceId, from, to, mail });
     axios
@@ -76,7 +76,17 @@ const Filter = ({ setItems }) => {
       .catch(console.error);
   };
 
-  return <ReportFilter handleSubmit={handleSubmit} showOnly={true} />;
+  const handleDeviceSelect = (deviceId) => {
+
+    const device = devices.find(e => e.id === deviceId);
+    setDevice(device);
+
+  }
+
+  return <ReportFilter 
+    handleSubmit={handleSubmit}
+    handleDeviceSelect={handleDeviceSelect}
+    showOnly={true} />;
 };
 
 function CustomToolbar() {
@@ -87,9 +97,12 @@ function CustomToolbar() {
   );
 }
 const SpeedReportPage = () => {
+  
+  const devices = useSelector((state) => Object.values(state.devices.items));
   const distanceUnit = useAttributePreference("distanceUnit");
   const speedUnit = useAttributePreference("speedUnit");
   const [items, setItems] = useState([]);
+  const [device, setDevice ] = useState([]);
   const classes = useStyles();
 
   const columns = [
@@ -118,7 +131,7 @@ const SpeedReportPage = () => {
   ];
 
   return (
-    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
+    <ReportLayoutPage filter={<Filter setDevice={setDevice} devices={devices} setItems={setItems} />}>
       <Grid container spacing={3}>
         <Grid item xs={8}>
           <Card className={classes.root}>
@@ -134,13 +147,13 @@ const SpeedReportPage = () => {
                         <ListItem>
                           <ListItemText
                             primary="Vehicle Owner Name"
-                            secondary="Jithin Thankachan"
+                            secondary={ device.vehicleOwnerName || 'N/A' }
                           />
                         </ListItem>
                         <ListItem>
                           <ListItemText
                             primary="Phone Number"
-                            secondary="N/A"
+                            secondary={ device.ownerPhoneNumber || 'N/A'}
                           />
                         </ListItem>
                       </List>
@@ -152,13 +165,13 @@ const SpeedReportPage = () => {
                         <ListItem>
                           <ListItemText
                             primary="Vehicle Reg Num"
-                            secondary="KL-69-A-9246"
+                            secondary={ device.licensePlate || 'N/A'}
                           />
                         </ListItem>
                         <ListItem>
                           <ListItemText
                             primary="Vehicle Engine Num"
-                            secondary="N/A"
+                            secondary={ device.engineNumber || 'N/A'}
                           />
                         </ListItem>
                       </List>
@@ -168,12 +181,15 @@ const SpeedReportPage = () => {
                     <div className={classes.demo}>
                       <List dense>
                         <ListItem>
-                          <ListItemText primary="Vehicle ID" secondary="1234" />
+                          <ListItemText 
+                            primary="Device ID"
+                            secondary={device.deviceId || 'N/A'}
+                           />
                         </ListItem>
                         <ListItem>
                           <ListItemText
                             primary="Vehicle Status"
-                            secondary="online"
+                            secondary={device.status || 'N/A'}
                           />
                         </ListItem>
                       </List>
