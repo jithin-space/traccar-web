@@ -1,7 +1,9 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MainPage from './MainPage';
+// import Dashboard from './Dashboard';
+import Map from './views/Maps/Maps';
 import LoginPage from './LoginPage';
 import RouteReportPage from './reports/RouteReportPage';
 import ServerPage from './admin/ServerPage';
@@ -46,7 +48,9 @@ const App = () => {
         <Route>
           {!initialized ? (<LinearProgress />) : (
             <Switch>
-              <Route exact path='/' component={MainPage} />
+              {/* <Route exact path='/dashboard' component={Dashboard} /> */}
+              <Route exact path='/maps' component={Map} />
+              <Route exact path='/main' component={MainPage} />
               <Route exact path='/replay' component={ReplayPage} />
               <Route exact path='/position/:id?' component={PositionPage} />
               <Route exact path='/user/:id?' component={UserPage} />
@@ -74,6 +78,7 @@ const App = () => {
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
               <Route exact path='/reports/chart' component={ChartReportPage} />
+              <Redirect from="/" to="/dashboard" />
             </Switch>
           )}
         </Route>
