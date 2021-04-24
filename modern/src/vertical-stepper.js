@@ -13,11 +13,13 @@ import clsx from 'clsx';
 import AddIdentification from './vehicle/Details/AddIdentification';
 import AddClassification from './vehicle/Details/AddClassification';
 import AddCustomerDetails from './vehicle/CustomerDetails';
+import Specificaion from './vehicle/Specification';
 import AddSettings from './vehicle/Settings';
 import ChatIcon from '@material-ui/icons/Chat';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -82,7 +84,9 @@ const ColorlibConnector = withStyles({
       1: <ChatIcon fontSize="small"/>,
       2: <AddBoxIcon fontSize="small"/>,
       3: <AssignmentIndIcon fontSize="small" />,
-      4: <SettingsIcon fontSize="small" />,
+      4: <AssignmentIcon fontSize="small" />,
+      5: <SettingsIcon fontSize="small" />,
+
       
 
     };
@@ -131,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Identification', 'Classification','Customer Details', 'Settings'];
+  return ['Identification', 'Classification','Customer Details', 'Specification', 'Settings'];
 }
 
 function getStepContent(
@@ -140,6 +144,7 @@ function getStepContent(
                 handleClassificationForm, 
                 handleSettingsForm,
                 handleCustomerForm,
+                handleSpecificationForm,
                 handleBack, 
                 activeStep,
                 editItem
@@ -165,8 +170,15 @@ function getStepContent(
               handleBack={handleBack}
               activeStep={activeStep}
               editItem={editItem}
-              />          
-    case 3:
+              />      
+    case 3: 
+        return <Specificaion 
+                handleFormSave={handleSpecificationForm}
+                handleBack={handleBack}
+                activeStep={activeStep}
+                editItem={editItem}
+               />              
+    case 4:
       return  <AddSettings 
               handleFormSave={handleSettingsForm}
               handleBack={handleBack}
@@ -185,6 +197,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
   const [identificationData, setIdentificationData] = useState({});
   const [settingsData, setSettingsData] = useState({});
   const [customerData, setCustomerData] = useState({});
+  const [specificationData, setSpecificationData] = useState({});
   const [finalData, setFinalData] = useState({});
 
   const steps = getSteps();
@@ -203,6 +216,10 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
   }
   const handleCustomerData = async(value) => {
     setCustomerData(value);
+    handleNext();
+  }
+  const handleSpecificationData = async(value) => {
+    setSpecificationData(value);
     handleNext();
   }
 
@@ -254,6 +271,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
                   handleClassificationData,
                   handleSettingsData,
                   handleCustomerData,
+                  handleSpecificationData,
                   handleBack, 
                   activeStep,
                   editItem.attributes,
