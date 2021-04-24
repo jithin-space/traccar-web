@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiTextField-root': {
         margin: theme.spacing(2),
-        width: 200,
+        width: 220,
         
       },
      },
@@ -29,35 +29,30 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-    status: yup
-      .string('Enter device name')
-      .required('required'),
-    company: yup
-      .string('')
-      .required('required'),
-      department: yup
-      .string()
-      .required('required'),
-      operator: yup
+    unitToMeasureUtilization: yup
+      .string(''),
+    currentReading: yup
+      .string(''),
+    averageUsagePerDay: yup
       .string(),
-      assignUser: yup
+    fuelUnit: yup
+      .string(),
+    measurementUnits: yup
       .string(),  
-      ownership: yup
-      .string(),
+    
  
   });
   
 
-export default function AddClassification({handleFormSave, handleBack, activeStep}) {
+export default function AddSettings({handleFormSave, handleBack, activeStep}) {
     const classes = useStyles();
     const formik = useFormik({
       initialValues: {
-        status: '',
-        company: '',
-        department: '',
-        operator: '',
-        assignUser: '',
-        ownership: ''
+        unitToMeasureUtilization: '',
+        currentReading: '',
+        averageUsagePerDay: '',
+        fuelUnit: '',
+        measurementUnits: '',
        
       },
       validationSchema: validationSchema,
@@ -73,84 +68,69 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
      <form className={classes.root} onSubmit={formik.handleSubmit}>
         <TextField
            fullWidth
-           required
-           id="status"
-           label="Status"
-           name="status"
-           value={formik.values.status}
+           id="unitToMeasureUtilization"
+           label="Unit to measure utilization"
+           name="unitToMeasureUtilization"
+           value={formik.values.unitToMeasureUtilization}
            onChange={formik.handleChange}
-           error={formik.touched.status && Boolean(formik.errors.status)}
-           helperText={formik.touched.status && formik.errors.status}
+           error={formik.touched.unitToMeasureUtilization && Boolean(formik.errors.unitToMeasureUtilization)}
+           helperText={formik.touched.unitToMeasureUtilization && formik.errors.unitToMeasureUtilization}
            variant="outlined"
            size="small"
         />
          <TextField
           fullWidth
-          required
-          id="company"
-          name="company"
-          label="Company"
+          id="currentReading"
+          name="currentReading"
+          label="Current Reading"
           variant="outlined"
           size="small"
-          value={formik.values.company}
+          value={formik.values.currentReading}
           onChange={formik.handleChange}
-          error={formik.touched.company && Boolean(formik.errors.company)}
-          helperText={formik.touched.company && formik.errors.company}
+          error={formik.touched.currentReading && Boolean(formik.errors.currentReading)}
+          helperText={formik.touched.currentReading && formik.errors.currentReading}
 
         />
          <TextField
           fullWidth
-          required
-          id="department"
-          name="department"
-          label="Department"
+          id="averageUsagePerDay"
+          name="averageUsagePerDay"
+          label="Average usage per day"
           variant="outlined"
           size="small"
-          value={formik.values.department}
+          value={formik.values.averageUsagePerDay}
           onChange={formik.handleChange}
-          error={formik.touched.department && Boolean(formik.errors.department)}
-          helperText={formik.touched.department && formik.errors.department}
+          error={formik.touched.averageUsagePerDay && Boolean(formik.errors.averageUsagePerDay)}
+          helperText={formik.touched.averageUsagePerDay && formik.errors.averageUsagePerDay}
 
         />
            <TextField
           fullWidth
-          id="operator"
-          name="operator"
-          label="Operator"
+          id="fuelUnit"
+          name="fuelUnit"
+          label="Fuel Unit"
           variant="outlined"
           size="small"
-          value={formik.values.operator}
+          value={formik.values.fuelUnit}
           onChange={formik.handleChange}
-          error={formik.touched.operator && Boolean(formik.errors.operator)}
-          helperText={formik.touched.operator && formik.errors.operator}
+          error={formik.touched.fuelUnit && Boolean(formik.errors.fuelUnit)}
+          helperText={formik.touched.fuelUnit && formik.errors.fuelUnit}
 
         />
           <TextField
           fullWidth
-          id="assignUser"
-          name="assignUser"
-          label="Assign User"
+          id="measurementUnit"
+          name="measurementUnit"
+          label="Measurement Unit"
           variant="outlined"
           size="small"
-          value={formik.values.assignUser}
+          value={formik.values.measurementUnit}
           onChange={formik.handleChange}
-          error={formik.touched.assignUser && Boolean(formik.errors.assignUser)}
-          helperText={formik.touched.assignUser && formik.errors.assignUser}
+          error={formik.touched.measurementUnit && Boolean(formik.errors.measurementUnit)}
+          helperText={formik.touched.measurementUnit && formik.errors.measurementUnit}
 
         />
-           <TextField
-          fullWidth
-          id="ownership"
-          name="ownership"
-          label="Ownership"
-          variant="outlined"
-          size="small"
-          value={formik.values.ownership}
-          onChange={formik.handleChange}
-          error={formik.touched.ownership && Boolean(formik.errors.ownership)}
-          helperText={formik.touched.ownership && formik.errors.ownership}
-
-        />
+      
         
         <div className={classes.actionsContainer}>
                 
@@ -169,7 +149,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
                       className={classes.button}
                      
                     >
-                      Save
+                      Finish
                     </Button>
                   
                 

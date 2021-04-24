@@ -105,19 +105,41 @@ function getSteps(editMode) {
   return steps;
 }
 
-function getStepContent(step, handleFormSave) {
-  switch (step) {
-    case 0:
-      return <DeviceVerticalStepper
-                handleFormSave={handleFormSave}
-            />;
-    case 1:
-      return <VehicleVerticalStepper />;
-    case 2:
-      return <MobileWizard />;
-    default:
-      return 'Unknown step';
+function getStepContent(editMode, step, handleFormSave, firstFormData, handleSubmitForm, goBackStep) {
+  if(!editMode) {
+    switch (step) {
+      case 0:
+        return <DeviceVerticalStepper
+                  handleFormSave={handleFormSave}
+              />;
+      case 1:
+        return <VehicleVerticalStepper
+                  firstFormData={firstFormData}
+                  handleSubmit={handleSubmitForm}
+                  goBackStep={goBackStep}
+                />;
+      default:
+        return 'Unknown step';
+    }
+  } else {
+    switch (step) {
+      case 0:
+        return <DeviceVerticalStepper
+                  handleFormSave={handleFormSave}
+              />;
+      case 1:
+        return <VehicleVerticalStepper
+                  firstFormData={firstFormData}
+                  handleSubmit={handleSubmitForm}
+                  
+                />;
+      case 2:
+        return <MobileWizard />;
+      default:
+        return 'Unknown step';
+    }
   }
+
 }
 
 export default function Wizard() {
@@ -147,22 +169,23 @@ export default function Wizard() {
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
-  const handleSave = async (value) => {
-    // let endpoint = "devices"
-    // let url = `/api/${endpoint}`;
-    // if (id) {
-    //   url += `/${id}`;
-    // }
+  const handleFinalSubmit = async (value) => {
+    handleComplete();
+    let endpoint = "devices"
+    let url = `/api/${endpoint}`;
+    if (id) {
+      url += `/${id}`;
+    }
 
-    // const response = await fetch(url, {
-    //   method: !id ? 'POST' : 'PUT',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(value),
-    // });
-    // if (response.ok) {
-    //   history.goBack();
-    // }
-    handleNext();
+    const response = await fetch(url, {
+      method: !id ? 'POST' : 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(value),
+    });
+    if (response.ok) {
+      history.goBack();
+    }
+    //alert(JSON.stringify(value, null, 2));
   };
   const handleFirstForm = (value) => {
     setFirstFormData(value);
@@ -225,34 +248,17 @@ export default function Wizard() {
               <Grid container spacing={3}>
                     <Grid item xs={12}>
                     <Paper elevation={0} className={classes.paper}>
-                        {getStepContent(activeStep, handleFirstForm)}
+                        {getStepContent(
+                          id,
+                          activeStep, 
+                          handleFirstForm, 
+                          firstFormData, 
+                          handleFinalSubmit,
+                          handleBack,
+                          )}
                     </Paper>
                     </Grid>
-                    <Grid item xs={12}>
-                    <div>
-                    <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                        Back
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleNext}
-                        className={classes.button}
-                    >
-                        Next
-                    </Button>
-                    {activeStep !== steps.length &&
-                        (completed[activeStep] ? (
-                        <Typography variant="caption" className={classes.completed}>
-                            Step {activeStep + 1} already completed
-                        </Typography>
-                        ) : (
-                        <Button variant="contained" color="primary" onClick={handleComplete}>
-                            {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Save & Continue'}
-                        </Button>
-                        ))}
-                    </div>
-                    </Grid>
+                    
             </Grid>
             </div>
             

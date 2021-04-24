@@ -1,19 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import StepConnector from '@material-ui/core/StepConnector';
 import clsx from 'clsx';
-import Extra from './DeviceDetails/Extra';
 import AddIdentification from './vehicle/Details/AddIdentification';
 import AddClassification from './vehicle/Details/AddClassification';
+import AddSettings from './vehicle/Settings';
 import ChatIcon from '@material-ui/icons/Chat';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -77,6 +79,7 @@ const ColorlibConnector = withStyles({
     const icons = {
       1: <ChatIcon fontSize="small"/>,
       2: <AddBoxIcon fontSize="small"/>,
+      3: <SettingsIcon fontSize="small" />,
 
     };
   
@@ -116,39 +119,89 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'left', 
     marginLeft: theme.spacing(6),
   },
+  backButton: {
+    display: 'flex',
+    justifyContent: 'right', 
+  }
 
 }));
 
 function getSteps() {
-  return ['Identification', 'Classification', 'Specification', 'Engine and Transmission', 'Wheel & Tyres', 
-          'Fluids', 'Settings'];
+  return ['Identification', 'Classification', 'Settings'];
 }
 
-function getStepContent(step) {
+function getStepContent(
+                step, 
+                handleIdentificationForm,
+                handleClassificationForm, 
+                handleSettingsForm,
+                handleBack, 
+                activeStep
+              ) 
+                  {
   switch (step) {
     case 0:
-      return <AddIdentification/>;
+      return <AddIdentification
+            handleFormSave={handleIdentificationForm}
+            activeStep={activeStep}
+            />;
     case 1:
-      return <AddClassification />;
+      return <AddClassification 
+                handleFormSave={handleClassificationForm}
+                handleBack={handleBack}
+                activeStep={activeStep}
+              />;
     case 2:
-      return <Extra />;
-    case 3: 
-      return 'test'
-    case 4: 
-      return 'test' 
-    case 5: 
-      return 'test'
-    case 6: 
-      return 'test'               
+      return  <AddSettings 
+              handleFormSave={handleSettingsForm}
+              handleBack={handleBack}
+              activeStep={activeStep}
+            />;               
     default:
       return 'Unknown step';
   }
 }
 
-export default function DeviceVerticalStepper() {
+export default function VehicleVerticalStepper({ firstFormData, handleSubmit, goBackStep }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [classificationData, setClassificationData] = useState({});
+  const [identificationData, setIdentificationData] = useState({});
+  const [settingsData, setSettingsData] = useState({});
+  const [finalData, setFinalData] = useState({});
   const steps = getSteps();
+
+  const handleClassificationData = async (value) => {
+    setClassificationData(value);
+    handleNext();
+  };
+  const handleIdentificationData = async (value) => {
+    setIdentificationData(value); 
+    handleNext();
+  }
+  const handleSettingsData = async(value) => {
+    setSettingsData(value);
+    handleNext();
+  }
+  const handleFinalSubmission = async(values) => {
+    let attributesData = {
+      attributes : {
+        ...identificationData,
+        ...classificationData,
+        ...settingsData,
+      }
+    }
+    let finalData = {
+      ...firstFormData,
+      ...attributesData
+    }
+    //setFinalData({ finalData });
+    handleSubmit(finalData);
+    //alert(JSON.stringify(finalData, null, 2));
+  }
+  const goBackToFirstForm = async() => {
+    goBackStep();
+  }
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -172,40 +225,45 @@ export default function DeviceVerticalStepper() {
             </StepLabel>
             <StepContent> 
             <Paper elevation={2} className={classes.formContainer}>
-                {getStepContent(index)}
+                {getStepContent(index, 
+                  handleIdentificationData,
+                  handleClassificationData,
+                  handleSettingsData,
+                  handleBack, 
+                  activeStep
+                   )}
               </Paper>
-              <div className={classes.actionsContainer}>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Prev
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Save'}
-                  </Button>
-                </div>
-              </div>   
 
             </StepContent>
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            Reset
-          </Button>
-        </Paper>
-      )}
+        <Grid container direction="row">
+          
+            
+           {activeStep === steps.length && (
+             <Grid item xs={12}>
+               <Paper square elevation={0} className={classes.resetContainer}>
+                <Typography>All steps completed - you can now submit form</Typography>
+               <Button className={classes.prevButton} variant="default" onClick={handleBack}>Prev</Button>
+             </Paper>
+           
+           </Grid>
+           )}
+            <Grid item xs={6}>
+              <Button fullWidth variant="contained" onClick={goBackToFirstForm} className={classes.button}>
+                Go Back
+              </Button>
+              </Grid>  
+             <Grid item xs={6}>
+             <Button disabled={activeStep !== steps.length} fullWidth variant="contained" color="primary" onClick={handleFinalSubmission} className={classes.button}>
+                Submit 
+              </Button>
+              
+             </Grid>
+           
+          </Grid>
+        
     </div>
   );
 }

@@ -1,6 +1,4 @@
 import React from 'react';
-import ProofOfAddress from './proofOfAddress';
-import ProofOfIdentity from './proofOfIdentity';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -38,8 +36,7 @@ export default function Details() {
           variant="outlined"
         />
       </form>
-            <ProofOfAddress />
-            <ProofOfIdentity />
+    
         </div>
     )
 }

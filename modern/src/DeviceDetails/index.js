@@ -220,7 +220,7 @@ export default function DeviceDetails({ handleFormSave }) {
                           className={classes.button}
                           fullWidth
                         >
-                          Prev
+                          Back
                         </Button>
                         <Button
                           variant="contained"
