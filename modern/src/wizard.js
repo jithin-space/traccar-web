@@ -199,6 +199,7 @@ export default function Wizard() {
       body: JSON.stringify(value),
     });
     if (response.ok) {
+      localStorage.clear(); //clears all local stored form data 
       history.goBack();
     }
     //alert(JSON.stringify(value, null, 2));

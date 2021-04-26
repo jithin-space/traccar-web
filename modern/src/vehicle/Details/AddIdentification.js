@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddIdentification({handleFormSave, activeStep, editItem}) {
     const classes = useStyles();
+    const [localSave, setLocalSave] = useState({});
     const initialValues = {
       vehicleName: '',
       deviceId: '',
@@ -78,8 +79,29 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
          initialValues[key] = editItem[key];
         }   
       })
-  );
+    );
   }
+  if (localSave) 
+  {
+    Object.keys(localSave).map(item => 
+      Object.keys(initialValues).map(function(key, index) {
+          if(key === item) {
+            initialValues[key] = localSave[key];
+           }   
+      })
+   );
+  }
+
+  useEffect(() => {
+    const data = localStorage.getItem('identification-form');
+    if(data) {
+      setLocalSave(JSON.parse(data));
+    }
+  }, []);
+  
+  useEffect(() => {
+    localStorage.setItem('identification-form', JSON.stringify(localSave));
+  });
 
     const formik = useFormik({
       enableReinitialize: true,
@@ -87,6 +109,8 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
       validationSchema: validationSchema,
       onSubmit: (values) => {
        //alert(JSON.stringify(values, null, 2))
+        setLocalSave(values); // value should be saved at local storage for displaying it 
+                            // while user jumps back to completed form or while reloading
         handleFormSave(values);
       }
 

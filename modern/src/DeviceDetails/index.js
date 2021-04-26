@@ -79,6 +79,7 @@ const validationSchema = yup.object({
 
 export default function DeviceDetails({ handleFormSave, editItem}) {
   const classes = useStyles();
+  const [localSave, setLocalSave] = useState({});
   const initialValues = {
     name: '',
     uniqueId: '',
@@ -99,13 +100,37 @@ export default function DeviceDetails({ handleFormSave, editItem}) {
       })
      );
   }
-  
+  if (localSave) 
+  {
+    Object.keys(localSave).map(item => 
+      Object.keys(initialValues).map(function(key, index) {
+          if(key === item) {
+            initialValues[key] = localSave[key];
+           }   
+   })
+  );
+  }
+
+useEffect(() => {
+  const data = localStorage.getItem('first-form');
+  if(data) {
+    setLocalSave(JSON.parse(data));
+  }
+}, []);
+
+useEffect(() => {
+  localStorage.setItem('first-form', JSON.stringify(localSave));
+});
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       //alert(JSON.stringify(values, null, 2));
+      setLocalSave(values); // value should be saved at local storage for displaying it 
+                            // while user jumps back to completed form or while reloading
+                         
       handleFormSave(values);
     }
 
