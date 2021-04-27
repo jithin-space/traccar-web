@@ -104,6 +104,9 @@ const SpeedReportPage = () => {
   const [items, setItems] = useState([]);
   const [device, setDevice ] = useState([]);
   const classes = useStyles();
+  let reduced = {};
+  let avgSpeed = 0;
+  let limit = (device.attributes && device.attributes.max_speed) ? device.attributes.max_speed : 70;
 
   const columns = [
     {
@@ -126,9 +129,21 @@ const SpeedReportPage = () => {
       headerName: "Over Speed",
       flex: 1,
       valueGetter: (p) =>
-        ((p.getValue("speed") || 0) * 1.852).toFixed(2) < 80 ? "No" : "YES",
+        ((p.getValue("speed") || 0) * 1.852).toFixed(2) < limit ? "No" : "YES",
     },
   ];
+
+
+  if(items.length > 0 ) {
+    reduced = items.reduce((red, e)=> {
+        let kmphSpeed = ((e.speed || 0)* 1.852).toFixed(2);
+        if( kmphSpeed > limit) red.events = (red.events || 0) + 1;
+        red.sumSpeed = (red.sumSpeed || 0 )+ parseFloat(kmphSpeed);
+        return red;
+      }, {});
+
+    avgSpeed = (reduced.sumSpeed/items.length).toFixed(0);
+  }
 
   return (
     <ReportLayoutPage filter={<Filter setDevice={setDevice} devices={devices} setItems={setItems} />}>
@@ -147,13 +162,13 @@ const SpeedReportPage = () => {
                         <ListItem>
                           <ListItemText
                             primary="Vehicle Owner Name"
-                            secondary={ device.vehicleOwnerName || 'N/A' }
+                            secondary={ device.attributes && device.attributes.vehicle_owner|| 'N/A' }
                           />
                         </ListItem>
                         <ListItem>
                           <ListItemText
-                            primary="Phone Number"
-                            secondary={ device.ownerPhoneNumber || 'N/A'}
+                            primary="Vehicle Group"
+                            secondary={ device.attributes && device.attributes.vehicle_group || 'N/A'}
                           />
                         </ListItem>
                       </List>
@@ -164,14 +179,14 @@ const SpeedReportPage = () => {
                       <List dense>
                         <ListItem>
                           <ListItemText
-                            primary="Vehicle Reg Num"
-                            secondary={ device.licensePlate || 'N/A'}
+                            primary="Vehicle Num"
+                            secondary={ device.attributes && device.attributes.vehicle_number || 'N/A'}
                           />
                         </ListItem>
                         <ListItem>
                           <ListItemText
-                            primary="Vehicle Engine Num"
-                            secondary={ device.engineNumber || 'N/A'}
+                            primary="Vehicle Chasis Num"
+                            secondary={ device.attributes && device.attributes.chasis_number || 'N/A'}
                           />
                         </ListItem>
                       </List>
@@ -183,13 +198,13 @@ const SpeedReportPage = () => {
                         <ListItem>
                           <ListItemText 
                             primary="Device ID"
-                            secondary={device.deviceId || 'N/A'}
+                            secondary={device.attributes && device.attributes.device_id || 'N/A'}
                            />
                         </ListItem>
                         <ListItem>
                           <ListItemText
-                            primary="Vehicle Status"
-                            secondary={device.status || 'N/A'}
+                            primary="Vehicle SIM Num"
+                            secondary={device.attributes && device.attributes.device_sim_no || 'N/A'}
                           />
                         </ListItem>
                       </List>
@@ -212,15 +227,15 @@ const SpeedReportPage = () => {
                     <div className={classes.demo}>
                       <List dense>
                         <ListItem>
-                          <ListItemText primary="Set Speed" />
+                          <ListItemText primary="Total Events" />
                           <ListItemAvatar>
-                            <Avatar>80</Avatar>
+                          <Avatar>{items.length || 0}</Avatar>
                           </ListItemAvatar>
                         </ListItem>
                         <ListItem>
                           <ListItemText primary="Max Speed" />
                           <ListItemAvatar>
-                            <Avatar>140</Avatar>
+                            <Avatar>{limit}</Avatar>
                           </ListItemAvatar>
                         </ListItem>
                       </List>
@@ -232,13 +247,13 @@ const SpeedReportPage = () => {
                         <ListItem>
                           <ListItemText primary="Avg Speed" />
                           <ListItemAvatar>
-                            <Avatar>20</Avatar>
+                            <Avatar>{avgSpeed}</Avatar>
                           </ListItemAvatar>
                         </ListItem>
                         <ListItem>
                           <ListItemText primary="Over Speed Events" />
                           <ListItemAvatar>
-                            <Avatar>3</Avatar>
+                          <Avatar>{reduced.events || 0}</Avatar>
                           </ListItemAvatar>
                         </ListItem>
                       </List>
