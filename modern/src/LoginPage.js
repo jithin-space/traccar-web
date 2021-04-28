@@ -27,7 +27,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        RevitsOne
+        Fleetrac
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -161,7 +161,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 error={failed}
-                label={t("userEmail")}
+                label='email/username'
                 name="email"
                 value={email}
                 autoComplete="email"
