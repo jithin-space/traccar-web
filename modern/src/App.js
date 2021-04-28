@@ -15,6 +15,7 @@ import GroupsPage from './settings/GroupsPage';
 import GroupPage from './settings/GroupPage';
 import PositionPage from './PositionPage';
 import EventReportPage from './reports/EventReportPage';
+import SpeedReportPage from './reports/SpeedReportPage';
 import ReplayPage from './reports/ReplayPage';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
@@ -75,6 +76,7 @@ useEffect(() => {
               <Route exact path='/admin/vendors' component={VendorsPage} />
               <Route exact path='/reports/route' component={RouteReportPage} />              
               <Route exact path='/reports/event' component={EventReportPage} />
+              <Route exact path='/reports/speed' component={SpeedReportPage} />
               <Route exact path='/reports/trip' component={TripReportPage} />
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
