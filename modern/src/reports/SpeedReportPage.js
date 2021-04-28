@@ -225,7 +225,7 @@ const SpeedReportPage = () => {
                 <Grid container spacing={0}>
                   <Grid item xs={12} md={6}>
                     <div className={classes.demo}>
-                      <List dense>
+                      <List >
                         <ListItem>
                           <ListItemText primary="Total Events" />
                 <Typography gutterBottom variant="h6" component="h4">
@@ -243,7 +243,7 @@ const SpeedReportPage = () => {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <div className={classes.demo}>
-                      <List dense>
+                      <List >
                         <ListItem>
                           <ListItemText primary="Avg Speed" />
                 <Typography variant="h6" component="h4" >
@@ -265,6 +265,7 @@ const SpeedReportPage = () => {
           </Card>
         </Grid>
       </Grid>
+      &nbsp;
       <TableContainer component={Paper}>
         <DataGrid
           autoHeight={"true"}
