@@ -228,15 +228,15 @@ const SpeedReportPage = () => {
                       <List dense>
                         <ListItem>
                           <ListItemText primary="Total Events" />
-                          <ListItemAvatar>
-                          <Avatar>{items.length || 0}</Avatar>
-                          </ListItemAvatar>
+                <Typography gutterBottom variant="h6" component="h4">
+                  {items.length ||0 }
+                </Typography>
                         </ListItem>
                         <ListItem>
                           <ListItemText primary="Max Speed" />
-                          <ListItemAvatar>
-                            <Avatar>{limit}</Avatar>
-                          </ListItemAvatar>
+                <Typography gutterBottom variant="h6" component="h4">
+                  {limit}
+                </Typography>
                         </ListItem>
                       </List>
                     </div>
@@ -246,15 +246,15 @@ const SpeedReportPage = () => {
                       <List dense>
                         <ListItem>
                           <ListItemText primary="Avg Speed" />
-                          <ListItemAvatar>
-                            <Avatar>{avgSpeed}</Avatar>
-                          </ListItemAvatar>
+                <Typography variant="h6" component="h4" >
+                  {avgSpeed}
+                </Typography>
                         </ListItem>
                         <ListItem>
                           <ListItemText primary="Over Speed Events" />
-                          <ListItemAvatar>
-                          <Avatar>{reduced.events || 0}</Avatar>
-                          </ListItemAvatar>
+                <Typography gutterBottom variant="h6" component="h4">
+                  {reduced.events || 0}
+                </Typography>
                         </ListItem>
                       </List>
                     </div>

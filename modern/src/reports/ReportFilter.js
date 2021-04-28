@@ -16,7 +16,7 @@ import moment from "moment";
 const ReportFilter = ({ children, handleSubmit, handleDeviceSelect= null, showOnly }) => {
   const devices = useSelector((state) => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
-  const [period, setPeriod] = useState("today");
+  const [period, setPeriod] = useState("last72hrs");
   const [from, setFrom] = useState(moment().subtract(1, "hour"));
   const [to, setTo] = useState(moment());
 
@@ -32,6 +32,9 @@ const ReportFilter = ({ children, handleSubmit, handleDeviceSelect= null, showOn
         selectedFrom = moment().subtract(1, "day").startOf("day");
         selectedTo = moment().subtract(1, "day").endOf("day");
         break;
+      case "last72hrs":
+        selectedFrom = moment().subtract(2, "day").startOf("day");
+        selectedTo = moment().endOf("day");
       case "thisWeek":
         selectedFrom = moment().startOf("week");
         selectedTo = moment().endOf("week");
@@ -87,6 +90,7 @@ const ReportFilter = ({ children, handleSubmit, handleDeviceSelect= null, showOn
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t("reportPeriod")}</InputLabel>
         <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
+          <MenuItem value="last72hrs">{"Last 72 hrs"}</MenuItem>
           <MenuItem value="today">{t("reportToday")}</MenuItem>
           <MenuItem value="yesterday">{t("reportYesterday")}</MenuItem>
           <MenuItem value="thisWeek">{t("reportThisWeek")}</MenuItem>
