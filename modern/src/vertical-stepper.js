@@ -10,16 +10,26 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import StepConnector from '@material-ui/core/StepConnector';
 import clsx from 'clsx';
+
 import AddIdentification from './vehicle/Details/AddIdentification';
 import AddClassification from './vehicle/Details/AddClassification';
 import AddCustomerDetails from './vehicle/CustomerDetails';
-import Specificaion from './vehicle/Specification';
+import AddSpecificaion from './vehicle/Specification';
 import AddSettings from './vehicle/Settings';
+import AddFluids from './vehicle/Fluids';
+import AddEngine from './vehicle/Engine';
+import AddTransmission from './vehicle/Transmission';
+import AddAdditionalDetails from './vehicle/Details/AdditionalDetails';
+
+import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import ChatIcon from '@material-ui/icons/Chat';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import OpacityIcon from '@material-ui/icons/Opacity';
+import SpeedIcon from '@material-ui/icons/Speed';
+import CollectionsIcon from '@material-ui/icons/Collections';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -82,12 +92,14 @@ const ColorlibConnector = withStyles({
   
     const icons = {
       1: <ChatIcon fontSize="small"/>,
-      2: <AddBoxIcon fontSize="small"/>,
-      3: <AssignmentIndIcon fontSize="small" />,
-      4: <AssignmentIcon fontSize="small" />,
-      5: <SettingsIcon fontSize="small" />,
-
-      
+      2: <CollectionsIcon fontSize="small"/>,
+      3: <AddBoxIcon fontSize="small"/>,
+      4: <AssignmentIndIcon fontSize="small" />,
+      5: <AssignmentIcon fontSize="small" />,
+      6: <DirectionsCarIcon fontSize="small" />,
+      7: <SpeedIcon fontSize="small"/>,
+      8: <OpacityIcon fontSize="small" />,
+      9: <SettingsIcon fontSize="small" />, 
 
     };
   
@@ -135,16 +147,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Identification', 'Classification','Customer Details', 'Specification', 'Settings'];
+  return ['Identification', 'Classification', 'Additional Details',
+          'Customer Details', 'Specification', 
+          'Engine', 'Transmission', 'Fluids','Settings'
+          ];
 }
 
 function getStepContent(
                 step, 
                 handleIdentificationForm,
                 handleClassificationForm, 
-                handleSettingsForm,
+                handleAdditionalForm,
                 handleCustomerForm,
                 handleSpecificationForm,
+                handleEngineForm,
+                handleTransmissionForm,
+                handleFluidsForm,
+                handleSettingsForm,
                 handleBack, 
                 activeStep,
                 editItem
@@ -165,26 +184,54 @@ function getStepContent(
                 editItem={editItem}
               />;
     case 2: 
+      return <AddAdditionalDetails 
+                handleFormSave={handleClassificationForm}
+                handleBack={handleBack}
+                activeStep={activeStep}
+                editItem={editItem}
+              />          
+    case 3: 
       return <AddCustomerDetails 
-              handleFormSave={handleCustomerForm}
+              handleFormSave={handleAdditionalForm}
               handleBack={handleBack}
               activeStep={activeStep}
               editItem={editItem}
               />      
-    case 3: 
-        return <Specificaion 
+    case 4: 
+        return <AddSpecificaion 
                 handleFormSave={handleSpecificationForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
                />              
-    case 4:
+    case 5:
+      return  <AddEngine
+                handleFormSave={handleEngineForm}
+                handleBack={handleBack}
+                activeStep={activeStep}
+                editItem={editItem}
+              />
+    case 6: 
+      return  <AddTransmission 
+                handleFormSave={handleTransmissionForm}
+                handleBack={handleBack}
+                activeStep={activeStep}
+                editItem={editItem}
+              />         
+    case 7:
+      return   <AddFluids 
+                handleFormSave={handleFluidsForm}
+                handleBack={handleBack}
+                activeStep={activeStep}
+                editItem={editItem}
+              />
+    case 8: 
       return  <AddSettings 
-              handleFormSave={handleSettingsForm}
-              handleBack={handleBack}
-              activeStep={activeStep}
-              editItem={editItem}
-            />;               
+                handleFormSave={handleSettingsForm}
+                handleBack={handleBack}
+                activeStep={activeStep}
+                editItem={editItem}
+              />;                               
     default:
       return 'Unknown step';
   }
@@ -193,11 +240,16 @@ function getStepContent(
 export default function VehicleVerticalStepper({ firstFormData, handleSubmit, goBackStep, editItem }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [classificationData, setClassificationData] = useState({});
+  
   const [identificationData, setIdentificationData] = useState({});
-  const [settingsData, setSettingsData] = useState({});
+  const [classificationData, setClassificationData] = useState({});
+  const [additionalData, setAdditionalData] = useState({});
   const [customerData, setCustomerData] = useState({});
   const [specificationData, setSpecificationData] = useState({});
+  const [engineData, setEngineData] = useState({}); 
+  const [transmissionData, setTransmissionData] = useState({});
+  const [fluidsData, setFluidsData] = useState({});
+  const [settingsData, setSettingsData] = useState({});
   const [finalData, setFinalData] = useState({});
 
   const steps = getSteps();
@@ -210,8 +262,8 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
     setIdentificationData(value); 
     handleNext();
   }
-  const handleSettingsData = async(value) => {
-    setSettingsData(value);
+  const handleAdditionalData = async(value) => {
+    setAdditionalData(value);
     handleNext();
   }
   const handleCustomerData = async(value) => {
@@ -222,13 +274,32 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
     setSpecificationData(value);
     handleNext();
   }
-
+  const handleEngineData = async(value) => {
+    setEngineData(value);
+    handleNext();
+  }
+  const handleTransmissionData = async(value) => {
+    setTransmissionData(value);
+    handleNext();
+  }
+  const handleFluidsData = async(value) => {
+    setFluidsData(value);
+    handleNext();
+  }
+  const handleSettingsData = async(value) => {
+    setSettingsData(value);
+    handleNext();
+  }
   const handleFinalSubmission = async(values) => {
     let attributesData = {
       attributes : {
         ...identificationData,
         ...classificationData,
         ...customerData,
+        ...specificationData,
+        ...engineData,
+        ...transmissionData,
+        ...fluidsData,
         ...settingsData,
       }
     }
@@ -269,9 +340,13 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
                 {getStepContent(index, 
                   handleIdentificationData,
                   handleClassificationData,
-                  handleSettingsData,
+                  handleAdditionalData,
                   handleCustomerData,
                   handleSpecificationData,
+                  handleEngineData,
+                  handleTransmissionData,
+                  handleFluidsData,
+                  handleSettingsData,
                   handleBack, 
                   activeStep,
                   editItem.attributes,

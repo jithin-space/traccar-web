@@ -109,7 +109,6 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
      <form className={classes.root} onSubmit={formik.handleSubmit}>
         <TextField
            fullWidth
-           required
            id="status"
            label="Status"
            name="status"
@@ -122,7 +121,6 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         />
          <TextField
           fullWidth
-          required
           id="company"
           name="company"
           label="Company"
@@ -136,7 +134,6 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         />
          <TextField
           fullWidth
-          required
           id="department"
           name="department"
           label="Department"

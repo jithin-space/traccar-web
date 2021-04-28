@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddCustomerDetails({handleFormSave, handleBack, activeStep, editItem}) {
     const classes = useStyles();
+    const [localSave, setLocalSave] = useState({});
     const initialValues = {
       customerName: '',
       customerMobile: '',
@@ -68,13 +69,35 @@ export default function AddCustomerDetails({handleFormSave, handleBack, activeSt
         })
       );
      }
-
+    if (localSave) 
+     {
+       Object.keys(localSave).map(item => 
+         Object.keys(initialValues).map(function(key, index) {
+             if(key === item) {
+               initialValues[key] = localSave[key];
+              }   
+         })
+       );
+     }
+     useEffect(() => {
+       const data = localStorage.getItem('customer-form');
+       if(data) {
+         setLocalSave(JSON.parse(data));
+       }
+     }, []);
+     
+     useEffect(() => {
+       localStorage.setItem('customer-form', JSON.stringify(localSave));
+     });
+   
     const formik = useFormik({
       enableReinitialize: true,
       initialValues: initialValues,
       validationSchema: validationSchema,
       onSubmit: (values) => {
        //alert(JSON.stringify(values, null, 2))
+       setLocalSave(values); // value should be saved at local storage for displaying it 
+                            // while user jumps back to completed form or while reloading
         handleFormSave(values);
       }
 
