@@ -34,6 +34,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   const items = useSelector(state => Object.values(state.devices.items));
 
   useEffectAsync(async () => {
+    localStorage.clear();
     const response = await fetch('/api/devices');
     if (response.ok) {
       dispatch(devicesActions.refresh(await response.json()));

@@ -20,6 +20,7 @@ import AddFluids from './vehicle/Fluids';
 import AddEngine from './vehicle/Engine';
 import AddTransmission from './vehicle/Transmission';
 import AddAdditionalDetails from './vehicle/Details/AdditionalDetails';
+import AddPhoto from './vehicle/Details/AddPhoto';
 
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -30,6 +31,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import OpacityIcon from '@material-ui/icons/Opacity';
 import SpeedIcon from '@material-ui/icons/Speed';
 import CollectionsIcon from '@material-ui/icons/Collections';
+import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -92,14 +94,15 @@ const ColorlibConnector = withStyles({
   
     const icons = {
       1: <ChatIcon fontSize="small"/>,
-      2: <CollectionsIcon fontSize="small"/>,
-      3: <AddBoxIcon fontSize="small"/>,
-      4: <AssignmentIndIcon fontSize="small" />,
-      5: <AssignmentIcon fontSize="small" />,
-      6: <DirectionsCarIcon fontSize="small" />,
-      7: <SpeedIcon fontSize="small"/>,
-      8: <OpacityIcon fontSize="small" />,
-      9: <SettingsIcon fontSize="small" />, 
+      2: <InsertPhotoIcon fontSize="small"/>,
+      3: <CollectionsIcon fontSize="small" />,
+      4: <AddBoxIcon fontSize="small"/>,
+      5: <AssignmentIndIcon fontSize="small" />,
+      6: <AssignmentIcon fontSize="small" />,
+      7: <DirectionsCarIcon fontSize="small" />,
+      8: <SpeedIcon fontSize="small"/>,
+      9: <OpacityIcon fontSize="small" />,
+      10: <SettingsIcon fontSize="small" />, 
 
     };
   
@@ -147,7 +150,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Identification', 'Classification', 'Additional Details',
+  return ['Identification', 'Upload Image', 'Classification', 'Additional Details',
           'Customer Details', 'Specification', 
           'Engine', 'Transmission', 'Fluids','Settings'
           ];
@@ -156,6 +159,7 @@ function getSteps() {
 function getStepContent(
                 step, 
                 handleIdentificationForm,
+                handleImage,
                 handleClassificationForm, 
                 handleAdditionalForm,
                 handleCustomerForm,
@@ -172,60 +176,67 @@ function getStepContent(
   switch (step) {
     case 0:
       return <AddIdentification
-            handleFormSave={handleIdentificationForm}
-            activeStep={activeStep}
-            editItem={editItem}
-            />;
-    case 1:
+                handleFormSave={handleIdentificationForm}
+                activeStep={activeStep}
+                editItem={editItem}
+              />;
+    case 1: 
+      return <AddPhoto 
+                handleFormSave={handleImage}
+                handleBack={handleBack}
+                activeStep={activeStep}
+                editItem={editItem}
+              />        
+    case 2:
       return <AddClassification 
                 handleFormSave={handleClassificationForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />;
-    case 2: 
+    case 3: 
       return <AddAdditionalDetails 
-                handleFormSave={handleClassificationForm}
+                handleFormSave={handleAdditionalForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />          
-    case 3: 
+    case 4: 
       return <AddCustomerDetails 
-              handleFormSave={handleAdditionalForm}
+              handleFormSave={handleCustomerForm}
               handleBack={handleBack}
               activeStep={activeStep}
               editItem={editItem}
               />      
-    case 4: 
+    case 5: 
         return <AddSpecificaion 
                 handleFormSave={handleSpecificationForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
                />              
-    case 5:
+    case 6:
       return  <AddEngine
                 handleFormSave={handleEngineForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />
-    case 6: 
+    case 7: 
       return  <AddTransmission 
                 handleFormSave={handleTransmissionForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />         
-    case 7:
+    case 8:
       return   <AddFluids 
                 handleFormSave={handleFluidsForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />
-    case 8: 
+    case 9: 
       return  <AddSettings 
                 handleFormSave={handleSettingsForm}
                 handleBack={handleBack}
@@ -242,6 +253,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
   const [activeStep, setActiveStep] = React.useState(0);
   
   const [identificationData, setIdentificationData] = useState({});
+  const [imageData, setImageData] = useState({});
   const [classificationData, setClassificationData] = useState({});
   const [additionalData, setAdditionalData] = useState({});
   const [customerData, setCustomerData] = useState({});
@@ -260,6 +272,10 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
   };
   const handleIdentificationData = async (value) => {
     setIdentificationData(value); 
+    handleNext();
+  }
+  const handleImageData = async(value) => {
+    setImageData(value);
     handleNext();
   }
   const handleAdditionalData = async(value) => {
@@ -294,7 +310,9 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
     let attributesData = {
       attributes : {
         ...identificationData,
+        ...imageData,
         ...classificationData,
+        ...additionalData,
         ...customerData,
         ...specificationData,
         ...engineData,
@@ -339,6 +357,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
             <Paper elevation={2} className={classes.formContainer}>
                 {getStepContent(index, 
                   handleIdentificationData,
+                  handleImageData,
                   handleClassificationData,
                   handleAdditionalData,
                   handleCustomerData,

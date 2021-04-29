@@ -65,11 +65,11 @@ const validationSchema = yup.object({
     .number('value must be a number')
     .integer('Id should be an Integer'),
   phone: yup
-    .string('value must be a string'),
+    .string('value must be a string').nullable(true),
   model: yup
-     .string('value must be a string'),
+     .string('value must be a string').nullable(true),
   contact: yup
-     .string('value must be a string'),
+     .string('value must be a string').nullable(true),
   category: yup
      .string('value must be a string'),
   disabled: yup
@@ -142,7 +142,6 @@ useEffect(() => {
          <Grid item xs={3} alignItems="center">
            <h4>Primary</h4>
           <TextField
-              required
               fullWidth
               id="name"
               label="Name"
@@ -154,7 +153,6 @@ useEffect(() => {
               variant="outlined"
             />
             <TextField
-              required
               fullWidth
               id="uniqueId"
               label="Identifier"
@@ -162,7 +160,7 @@ useEffect(() => {
               value={formik.values.uniqueId}
               onChange={formik.handleChange}
               error={formik.touched.uniqueId && Boolean(formik.errors.uniqueId)}
-              helperText={formik.touched.uniqueId && formik.errors.uniqueId}
+              helperText={formik.touched.uniqueId && formik.errors.uniqueId ? 'UniqueID must be a number' : '' }
               variant="outlined"
             />   
            

@@ -106,7 +106,7 @@ function getSteps(editMode) {
   return steps;
 }
 
-function getStepContent(editItem, step, handleFormSave, firstFormData, handleSubmitForm, goBackStep, handleInitialValue) {
+function getStepContent(editItem, step, handleFormSave, firstFormData, handleSubmitForm, goBackStep) {
   if(!editItem) {
     switch (step) {
       case 0:
@@ -127,7 +127,6 @@ function getStepContent(editItem, step, handleFormSave, firstFormData, handleSub
       case 0:
         return <DeviceVerticalStepper
                   editItem={editItem}
-                  initialValues={handleInitialValue}
                   handleFormSave={handleFormSave} //change to handleFormSave
               />;
       case 1:

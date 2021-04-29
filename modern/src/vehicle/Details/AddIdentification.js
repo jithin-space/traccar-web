@@ -10,6 +10,9 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import vehicleTypesList from './vehicleTypes';
+import ProductTypesList from './productTypes';
+import { Input } from '@material-ui/core';
+import productTypes from './productTypes';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
         width: 200,
         
-      },
+      }
      },
     button: {
       marginTop: theme.spacing(1),
@@ -26,8 +29,13 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
       margin: theme.spacing(2),
-      minWidth: 220,
+      minWidth: 200,
       maxHeight: '100px'
+    },
+    photoContainer: {
+      margin: theme.spacing(2),
+      width: 300,
+      
     },
     actionsContainer: {
       display: 'flex',
@@ -50,12 +58,22 @@ const useStyles = makeStyles((theme) => ({
       chasisNumber: yup.string('value must be a string'),
       licensePlate: yup.string('value must be a string').required('required'),
       make: yup.string('value must be a string').required('required'),
-      calibrationDate: yup.date(),
+      calibrationDate   : yup.date(),
+      vinSerialNumber   : yup.string().required(),
+      model             : yup.string().required(),
+      year              : yup.string().required(),
+      trim              : yup.string(),  
+      productType       : yup.string(),
+      speedLimit        : yup.string().required(),
+      registrationState : yup.string(),
+      photo             : yup.mixed(),
+      //img               : yup.mixed(),
   });
   
 
 export default function AddIdentification({handleFormSave, activeStep, editItem}) {
     const classes = useStyles();
+    const [photoLoaded, setPhoto] = useState(false);
     const [localSave, setLocalSave] = useState({});
     const initialValues = {
       vehicleName: '',
@@ -68,7 +86,16 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
       licensePlate: '',
       make: '',
       calibrationDate: '',
-      vehicleType: ''
+      vehicleType: '',
+      vinSerialNumber   : '',
+      model             : '',
+      year              : '',
+      trim              : '',
+      productType       : '',
+      speedLimit        : '',
+      registrationState : '',
+      photo             : null,
+      //img               : '',
     
     };
 
@@ -97,6 +124,7 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
     if(data) {
       setLocalSave(JSON.parse(data));
     }
+  
   }, []);
   
   useEffect(() => {
@@ -108,13 +136,14 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
       initialValues: initialValues,
       validationSchema: validationSchema,
       onSubmit: (values) => {
-       //alert(JSON.stringify(values, null, 2))
+        //alert(JSON.stringify(values), null, 2);
+
         setLocalSave(values); // value should be saved at local storage for displaying it 
                             // while user jumps back to completed form or while reloading
         handleFormSave(values);
       }
 
-    })
+    });
     
     return (
      <div>
@@ -250,14 +279,93 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
           helperText={formik.touched.calibrationDate && formik.errors.calibrationDate}
 
         />
+        <TextField
+          fullWidth
+          id="vinSerialNumber"
+          name="vinSerialNumber"
+          label="VIN Serial Number *"
+          variant="outlined"
+          size="small"
+          value={formik.values.vinSerialNumber}
+          onChange={formik.handleChange}
+          error={formik.touched.vinSerialNumber && Boolean(formik.errors.vinSerialNumber)}
+          helperText={formik.touched.vinSerialNumber && formik.errors.vinSerialNumber}
+
+        />
+         <TextField
+          fullWidth
+          id="model"
+          name="model"
+          label="Model *"
+          variant="outlined"
+          size="small"
+          value={formik.values.model}
+          onChange={formik.handleChange}
+          error={formik.touched.model && Boolean(formik.errors.model)}
+          helperText={formik.touched.model && formik.errors.model}
+
+        />
+          <TextField
+          fullWidth
+          id="year"
+          name="year"
+          label="Year *"
+          variant="outlined"
+          size="small"
+          value={formik.values.year}
+          onChange={formik.handleChange}
+          error={formik.touched.year && Boolean(formik.errors.year)}
+          helperText={formik.touched.year && formik.errors.year}
+
+        />
+          <TextField
+          fullWidth
+          id="trim"
+          name="trim"
+          label="Trim"
+          variant="outlined"
+          size="small"
+          value={formik.values.trim}
+          onChange={formik.handleChange}
+          error={formik.touched.trim && Boolean(formik.errors.trim)}
+          helperText={formik.touched.trim && formik.errors.trim}
+
+        />
+            <TextField
+          fullWidth
+          id="speedLimit"
+          name="speedLimit"
+          label="Speed Limit *"
+          variant="outlined"
+          size="small"
+          value={formik.values.speedLimit}
+          onChange={formik.handleChange}
+          error={formik.touched.speedLimit && Boolean(formik.errors.speedLimit)}
+          helperText={formik.touched.speedLimit && formik.errors.speedLimit}
+
+        />
+            <TextField
+          fullWidth
+          id="registrationState"
+          name="registrationState"
+          label="Registration State"
+          variant="outlined"
+          size="small"
+          value={formik.values.registrationState}
+          onChange={formik.handleChange}
+          error={formik.touched.registrationState && Boolean(formik.errors.registrationState)}
+          helperText={formik.touched.registrationState && formik.errors.registrationState}
+
+        />
+
         <FormControl  variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Type</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Vehicle Type *</InputLabel>
                   <Select
                     id="vehicleType"
                     name="vehicleType"
                     value={formik.values.vehicleType}
                     onChange={formik.handleChange}
-                    label="Type *"
+                    label="Vehicle Type *"
                     error={formik.touched.vehicleType && Boolean(formik.errors.vehicleType)}
                     helperText={formik.touched.vehicleType && formik.errors.vehicleType}
                    >
@@ -265,8 +373,24 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
                     <MenuItem value={item}>{item}</MenuItem>
                    )}
                   </Select>
-              </FormControl> 
-        
+            </FormControl>
+           <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Product Type *</InputLabel>
+                  <Select
+                    id="productType"
+                    name="productType"
+                    value={formik.values.productType}
+                    onChange={formik.handleChange}
+                    label="Product Type *"
+                    error={formik.touched.productType && Boolean(formik.errors.productType)}
+                    helperText={formik.touched.productType && formik.errors.productType}
+                   >
+                   {ProductTypesList.map((item) => 
+                    <MenuItem value={item}>{item}</MenuItem>
+                   )}
+                  </Select>
+              </FormControl>
+                
         <div className={classes.actionsContainer}>
                 
                    <Button
