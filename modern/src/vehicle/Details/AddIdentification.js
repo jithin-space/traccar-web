@@ -375,13 +375,13 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
                   </Select>
             </FormControl>
            <FormControl  variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Product Type *</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Product Type</InputLabel>
                   <Select
                     id="productType"
                     name="productType"
                     value={formik.values.productType}
                     onChange={formik.handleChange}
-                    label="Product Type *"
+                    label="Product Type"
                     error={formik.touched.productType && Boolean(formik.errors.productType)}
                     helperText={formik.touched.productType && formik.errors.productType}
                    >

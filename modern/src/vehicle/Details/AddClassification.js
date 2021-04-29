@@ -5,6 +5,10 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
       marginRight: theme.spacing(1),
       
+    },
+    formControl: {
+      margin: theme.spacing(2),
+      minWidth: 200,
     },
     actionsContainer: {
       display: 'flex',
@@ -107,18 +115,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
     return (
      <div>
      <form className={classes.root} onSubmit={formik.handleSubmit}>
-        <TextField
-           fullWidth
-           id="status"
-           label="Status"
-           name="status"
-           value={formik.values.status}
-           onChange={formik.handleChange}
-           error={formik.touched.status && Boolean(formik.errors.status)}
-           helperText={formik.touched.status && formik.errors.status}
-           variant="outlined"
-           size="small"
-        />
+
          <TextField
           fullWidth
           id="company"
@@ -184,6 +181,42 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           helperText={formik.touched.ownership && formik.errors.ownership}
 
         />
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
+                  <Select
+                    id="status"
+                    label="Status"
+                    name="status"
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                    error={formik.touched.status && Boolean(formik.errors.status)}
+                    helperText={formik.touched.status && formik.errors.status}
+                   >
+                     <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Active">Active</MenuItem>
+                    <MenuItem value="Offline">Offline</MenuItem>                   
+                  </Select>
+        </FormControl>
+         <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Ownership</InputLabel>
+                  <Select
+                    id="ownership"
+                    name="ownership"
+                    label="Ownership"
+                    value={formik.values.ownership}
+                    onChange={formik.handleChange}
+                    error={formik.touched.ownership && Boolean(formik.errors.ownership)}
+                    helperText={formik.touched.ownership && formik.errors.ownership}
+                   >
+                     <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Owned">Owned</MenuItem>
+                    <MenuItem value="Lease">Lease</MenuItem>                   
+                  </Select>
+        </FormControl>
         
         <div className={classes.actionsContainer}>
                 

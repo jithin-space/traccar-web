@@ -233,7 +233,7 @@ useEffect(() => {
                   size="small"
                 />  
                 <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Cateogry</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
                   <Select
                     id="category"
                     name="category"

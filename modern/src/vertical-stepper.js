@@ -20,6 +20,7 @@ import AddFluids from './vehicle/Fluids';
 import AddEngine from './vehicle/Engine';
 import AddTransmission from './vehicle/Transmission';
 import AddAdditionalDetails from './vehicle/Details/AdditionalDetails';
+import AddWheelAndTyres from './vehicle/WheelsAndTyres';
 import AddPhoto from './vehicle/Details/AddPhoto';
 
 import DirectionsCarIcon from '@material-ui/icons/DirectionsCar';
@@ -32,6 +33,7 @@ import OpacityIcon from '@material-ui/icons/Opacity';
 import SpeedIcon from '@material-ui/icons/Speed';
 import CollectionsIcon from '@material-ui/icons/Collections';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
+import BuildIcon from '@material-ui/icons/Build';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -100,9 +102,10 @@ const ColorlibConnector = withStyles({
       5: <AssignmentIndIcon fontSize="small" />,
       6: <AssignmentIcon fontSize="small" />,
       7: <DirectionsCarIcon fontSize="small" />,
-      8: <SpeedIcon fontSize="small"/>,
-      9: <OpacityIcon fontSize="small" />,
-      10: <SettingsIcon fontSize="small" />, 
+      8: <SpeedIcon fontSize="small" />,
+      9: <BuildIcon fontSize="small" />,
+      10: <OpacityIcon fontSize="small" />,
+      11: <SettingsIcon fontSize="small" />, 
 
     };
   
@@ -152,7 +155,7 @@ const useStyles = makeStyles((theme) => ({
 function getSteps() {
   return ['Identification', 'Upload Image', 'Classification', 'Additional Details',
           'Customer Details', 'Specification', 
-          'Engine', 'Transmission', 'Fluids','Settings'
+          'Engine', 'Transmission', 'Wheels & Tyres', 'Fluids','Settings'
           ];
 }
 
@@ -166,6 +169,7 @@ function getStepContent(
                 handleSpecificationForm,
                 handleEngineForm,
                 handleTransmissionForm,
+                handleWheelsForm,
                 handleFluidsForm,
                 handleSettingsForm,
                 handleBack, 
@@ -224,19 +228,26 @@ function getStepContent(
               />
     case 7: 
       return  <AddTransmission 
-                handleFormSave={handleTransmissionForm}
-                handleBack={handleBack}
-                activeStep={activeStep}
-                editItem={editItem}
-              />         
-    case 8:
+              handleFormSave={handleTransmissionForm}
+              handleBack={handleBack}
+              activeStep={activeStep}
+              editItem={editItem}
+            />         
+    case 8:   
+      return  <AddWheelAndTyres 
+              handleFormSave={handleWheelsForm}
+              handleBack={handleBack}
+              activeStep={activeStep}
+              editItem={editItem}
+              />        
+    case 9:
       return   <AddFluids 
                 handleFormSave={handleFluidsForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />
-    case 9: 
+    case 10: 
       return  <AddSettings 
                 handleFormSave={handleSettingsForm}
                 handleBack={handleBack}
@@ -260,6 +271,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
   const [specificationData, setSpecificationData] = useState({});
   const [engineData, setEngineData] = useState({}); 
   const [transmissionData, setTransmissionData] = useState({});
+  const [wheelsData, setWheelsData] = useState({});
   const [fluidsData, setFluidsData] = useState({});
   const [settingsData, setSettingsData] = useState({});
   const [finalData, setFinalData] = useState({});
@@ -298,6 +310,10 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
     setTransmissionData(value);
     handleNext();
   }
+  const handleWheelsData = async(value) => {
+    setWheelsData(value);
+    handleNext();
+  }
   const handleFluidsData = async(value) => {
     setFluidsData(value);
     handleNext();
@@ -317,6 +333,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
         ...specificationData,
         ...engineData,
         ...transmissionData,
+        ...wheelsData,
         ...fluidsData,
         ...settingsData,
       }
@@ -364,6 +381,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
                   handleSpecificationData,
                   handleEngineData,
                   handleTransmissionData,
+                  handleWheelsData,
                   handleFluidsData,
                   handleSettingsData,
                   handleBack, 

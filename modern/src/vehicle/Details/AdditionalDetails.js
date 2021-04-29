@@ -6,6 +6,8 @@ import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import typeOfStandards from './standards';
+import { bodyType, bodySubtype } from './vehiclebody';
+import deviceType from './deviceType';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -323,10 +325,78 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           helperText={formik.touched.fittingAgentID && formik.errors.fittingAgentID}
 
         />
+         <TextField
+          fullWidth
+          id="installationCountry"
+          name="installationCountry"
+          label="Installation Country"
+          variant="outlined"
+          size="small"
+          value={formik.values.installationCountry}
+          onChange={formik.handleChange}
+          error={formik.touched.installationCountry && Boolean(formik.errors.installationCountry)}
+          helperText={formik.touched.installationCountry && formik.errors.installationCountry}
+
+        />
+           <TextField
+          fullWidth
+          id="colour"
+          name="colour"
+          label="colour"
+          variant="outlined"
+          size="small"
+          value={formik.values.colour}
+          onChange={formik.handleChange}
+          error={formik.touched.colour && Boolean(formik.errors.colour)}
+          helperText={formik.touched.colour && formik.errors.colour}
+
+        />
+            <TextField
+          fullWidth
+          id="msrp"
+          name="msrp"
+          label="MSRP"
+          variant="outlined"
+          size="small"
+          value={formik.values.msrp}
+          onChange={formik.handleChange}
+          error={formik.touched.msrp && Boolean(formik.errors.msrp)}
+          helperText={formik.touched.msrp && formik.errors.msrp}
+
+        />
+          <TextField
+          fullWidth
+          id="linkedVehicles"
+          name="linkedVehicles"
+          label="Linked Vehicles"
+          variant="outlined"
+          size="small"
+          value={formik.values.linkedVehicles}
+          onChange={formik.handleChange}
+          error={formik.touched.linkedVehicles && Boolean(formik.errors.linkedVehicles)}
+          helperText={formik.touched.linkedVehicles && formik.errors.linkedVehicles}
+
+        />
+         <TextField
+          fullWidth
+          style={{width: 230}}
+          id="primaryFuelTankCapacity"
+          name="primaryFuelTankCapacity"
+          label="Primary Fuel Tank Capacity"
+          variant="outlined"
+          size="small"
+          value={formik.values.primaryFuelTankCapacity}
+          onChange={formik.handleChange}
+          error={formik.touched.primaryFuelTankCapacity && Boolean(formik.errors.primaryFuelTankCapacity)}
+          helperText={formik.touched.primaryFuelTankCapacity && formik.errors.primaryFuelTankCapacity}
+
+        />
+        
+
         <FormControl  variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">Application Standard</InputLabel>
                   <Select
-                    id="applicationStandarde"
+                    id="applicationStandard"
                     name="applicationStandard"
                     value={formik.values.vehicleType}
                     onChange={formik.handleChange}
@@ -339,33 +409,56 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
                    )}
                   </Select>
         </FormControl> 
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Body Type</InputLabel>
+                  <Select
+                    id="bodyType"
+                    name="bodyType"
+                    value={formik.values.bodyType}
+                    onChange={formik.handleChange}
+                    label="Body Type"
+                    error={formik.touched.bodyType && Boolean(formik.errors.bodyType)}
+                    helperText={formik.touched.bodyType && formik.errors.bodyType}
+                   >
+                   {bodyType.map((item) => 
+                    <MenuItem value={item}>{item}</MenuItem>
+                   )}
+                  </Select>
+        </FormControl> 
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Body Sub Type</InputLabel>
+                  <Select
+                    id="bodySubtype"
+                    name="bodySubtype"
+                    value={formik.values.bodySubtype}
+                    onChange={formik.handleChange}
+                    label="Body Sub Type"
+                    error={formik.touched.bodySubtype && Boolean(formik.errors.bodySubtype)}
+                    helperText={formik.touched.bodySubtype && formik.errors.bodySubtype}
+                   >
+                   {bodySubtype.map((item) => 
+                    <MenuItem value={item}>{item}</MenuItem>
+                   )}
+                  </Select>
+        </FormControl> 
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Device Type</InputLabel>
+                  <Select
+                    id="deviceType"
+                    name="deviceType"
+                    value={formik.values.deviceType}
+                    onChange={formik.handleChange}
+                    label="deviceType"
+                    error={formik.touched.deviceType && Boolean(formik.errors.deviceType)}
+                    helperText={formik.touched.deviceType && formik.errors.deviceType}
+                   >
+                   {deviceType.map((item) => 
+                    <MenuItem value={item}>{item}</MenuItem>
+                   )}
+                  </Select>
+        </FormControl>
             
-            <TextField
-          fullWidth
-          id="installationCountry"
-          name="installationCountry"
-          label="Installation Country"
-          variant="outlined"
-          size="small"
-          value={formik.values.installationCountry}
-          onChange={formik.handleChange}
-          error={formik.touched.installationCountry && Boolean(formik.errors.installationCountry)}
-          helperText={formik.touched.installationCountry && formik.errors.installationCountry}
-
-        />
-              <TextField
-          fullWidth
-          id="installationCountry"
-          name="installationCountry"
-          label="Installation Country"
-          variant="outlined"
-          size="small"
-          value={formik.values.installationCountry}
-          onChange={formik.handleChange}
-          error={formik.touched.installationCountry && Boolean(formik.errors.installationCountry)}
-          helperText={formik.touched.installationCountry && formik.errors.installationCountry}
-
-        />
+           
        
         
         <div className={classes.actionsContainer}>

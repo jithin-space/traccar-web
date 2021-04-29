@@ -44,7 +44,16 @@ const useStyles = makeStyles((theme) => ({
     vehicleHeight: yup
       .string(), 
     vehicleLength: yup
-      .string(),  
+      .string(), 
+      interiorVolume          :   yup.string(),
+      passengerVolume         :   yup.string(),
+      cargoVolume             :   yup.string(),
+      groundClearence         :   yup.string(),
+      bedLength               :   yup.string(),
+      curbWeight              :   yup.string(),
+      grossVehicleWeightRating  : yup.string(),
+
+
  
   });
   
@@ -61,6 +70,15 @@ export default function Specificaion({handleFormSave, handleBack, activeStep, ed
         vehicleWidth: '',
         vehicleHeight:'',
         vehicleLength: '',
+        interiorVolume          :  '',
+        passengerVolume         :  '',
+        cargoVolume             :  '',
+        groundClearence         :  '',
+        bedLength               :  '',
+        curbWeight              :  '',
+        grossVehicleWeightRating  : '',
+
+
         };
 
    if(editItem) {
@@ -201,17 +219,98 @@ export default function Specificaion({handleFormSave, handleBack, activeStep, ed
         />
           <TextField
           fullWidth
-          id="vehicleLength"
-          name="vehicleLength"
-          label="Vehicle Length"
+          id="interiorVolume"
+          name="interiorVolume"
+          label="Interior Volume"
           variant="outlined"
           size="small"
-          value={formik.values.vehicleLength}
+          value={formik.values.interiorVolume}
           onChange={formik.handleChange}
-          error={formik.touched.vehicleLength && Boolean(formik.errors.vehicleLength)}
-          helperText={formik.touched.vehicleLength && formik.errors.vehicleLength}
+          error={formik.touched.interiorVolume && Boolean(formik.errors.interiorVolume)}
+          helperText={formik.touched.interiorVolume && formik.errors.interiorVolume}
 
         />
+            <TextField
+          fullWidth
+          id="passengerVolume"
+          name="passengerVolume"
+          label="Passenger Volume"
+          variant="outlined"
+          size="small"
+          value={formik.values.passengerVolume}
+          onChange={formik.handleChange}
+          error={formik.touched.passengerVolume && Boolean(formik.errors.passengerVolume)}
+          helperText={formik.touched.passengerVolume && formik.errors.passengerVolume}
+
+        />
+            <TextField
+          fullWidth
+          id="cargoVolume"
+          name="cargoVolume"
+          label="Cargo Volume"
+          variant="outlined"
+          size="small"
+          value={formik.values.cargoVolume}
+          onChange={formik.handleChange}
+          error={formik.touched.cargoVolume && Boolean(formik.errors.cargoVolume)}
+          helperText={formik.touched.cargoVolume && formik.errors.cargoVolume}
+
+        />
+           <TextField
+          fullWidth
+          id="groundClearence"
+          name="groundClearence"
+          label="Ground Clearence"
+          variant="outlined"
+          size="small"
+          value={formik.values.groundClearence}
+          onChange={formik.handleChange}
+          error={formik.touched.groundClearence && Boolean(formik.errors.groundClearence)}
+          helperText={formik.touched.groundClearence && formik.errors.groundClearence}
+
+        />
+           <TextField
+          fullWidth
+          id="bedLength"
+          name="bedLength"
+          label="Bed Length"
+          variant="outlined"
+          size="small"
+          value={formik.values.bedLength}
+          onChange={formik.handleChange}
+          error={formik.touched.bedLength && Boolean(formik.errors.bedLength)}
+          helperText={formik.touched.bedLength && formik.errors.bedLength}
+
+        />
+           <TextField
+          fullWidth
+          id="curbWeight"
+          name="curbWeight"
+          label="Curb Weight"
+          variant="outlined"
+          size="small"
+          value={formik.values.curbWeight}
+          onChange={formik.handleChange}
+          error={formik.touched.curbWeight && Boolean(formik.errors.curbWeight)}
+          helperText={formik.touched.curbWeight && formik.errors.curbWeight}
+
+        />
+           <TextField
+          fullWidth
+          style={{width: 230}}
+          id="grossVehicleWeightRating"
+          name="grossVehicleWeightRating"
+          label="Gross Vehicle Weight Rating"
+          variant="outlined"
+          size="small"
+          value={formik.values.grossVehicleWeightRating}
+          onChange={formik.handleChange}
+          error={formik.touched.grossVehicleWeightRating && Boolean(formik.errors.grossVehicleWeightRating)}
+          helperText={formik.touched.grossVehicleWeightRating && formik.errors.grossVehicleWeightRating}
+
+        />
+        
+        
         
         <div className={classes.actionsContainer}>
                 
