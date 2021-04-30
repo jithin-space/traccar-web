@@ -258,19 +258,7 @@ export default function Engine({handleFormSave, handleBack, activeStep, editItem
           helperText={formik.touched.fuelInduction && formik.errors.fuelInduction}
 
         />
-        <TextField
-          fullWidth
-          id="valves"
-          name="valves"
-          label="valves"
-          variant="outlined"
-          size="small"
-          value={formik.values.valves}
-          onChange={formik.handleChange}
-          error={formik.touched.valves && Boolean(formik.errors.valves)}
-          helperText={formik.touched.valves && formik.errors.valves}
-
-        />
+       
          <TextField
           fullWidth
           id="maxHP"

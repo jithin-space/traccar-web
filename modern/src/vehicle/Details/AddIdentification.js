@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
       vehicleName: yup.string('value must be a string').required('required'),
       deviceId: yup.string('value must be a string').required('required'),
       deviceSIMNumber: yup.string('value must be a string'),
-      dateOfFitting: yup.string('value must be a string'),
-      deviceExpiryDate: yup.string('value must be a string'),  
+      dateOfFitting: yup.date(),
+      deviceExpiryDate: yup.date(),  
       engineNumber: yup.string('value must be a string'),
       vehicleType: yup.string('value must be a string').required('required'),
       chasisNumber: yup.string('value must be a string'),
@@ -196,7 +196,7 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
           value={formik.values.dateOfFitting}
           onChange={formik.handleChange}
           error={formik.touched.dateOfFitting && Boolean(formik.errors.dateOfFitting)}
-          helperText={formik.touched.dateOfFitting && formik.errors.dateOfFitting}
+          helperText={formik.touched.dateOfFitting && formik.errors.dateOfFitting ? 'Invalid Date format MM/DD/YYYY' : 'MM/DD/YYYY'}
 
         />
           <TextField
@@ -209,7 +209,7 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
           value={formik.values.deviceExpiryDate}
           onChange={formik.handleChange}
           error={formik.touched.deviceExpiryDate && Boolean(formik.errors.deviceExpiryDate)}
-          helperText={formik.touched.deviceExpiryDate && formik.errors.deviceExpiryDate}
+          helperText={formik.touched.deviceExpiryDate && formik.errors.deviceExpiryDate ? 'Invalid Date format MM/DD/YYYY' : 'MM/DD/YYYY'}
 
         />
            <TextField
@@ -276,7 +276,7 @@ export default function AddIdentification({handleFormSave, activeStep, editItem}
           value={formik.values.calibrationDate}
           onChange={formik.handleChange}
           error={formik.touched.calibrationDate && Boolean(formik.errors.calibrationDate)}
-          helperText={formik.touched.calibrationDate && formik.errors.calibrationDate}
+          helperText={(formik.touched.calibrationDate && formik.errors.calibrationDate) ? 'Invalid Date format MM/DD/YYYY' : 'MM/DD/YYYY'}
 
         />
         <TextField

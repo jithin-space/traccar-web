@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import typeOfStandards from './standards';
+import limiterType from './limiterType';
 import { bodyType, bodySubtype } from './vehiclebody';
 import deviceType from './deviceType';
 import FormControl from '@material-ui/core/FormControl';
@@ -182,19 +183,9 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           helperText={formik.touched.ownerPhoneNumber && formik.errors.ownerPhoneNumber}
 
         />
-           <TextField
-          fullWidth
-          id="limiterType"
-          name="limiterType"
-          label="Limiter Type"
-          variant="outlined"
-          size="small"
-          value={formik.values.limiterType}
-          onChange={formik.handleChange}
-          error={formik.touched.limiterType && Boolean(formik.errors.limiterType)}
-          helperText={formik.touched.limiterType && formik.errors.limiterType}
-
-        />
+         
+        
+        
           <TextField
           fullWidth
           id="deviceSecondaryNumber"
@@ -289,7 +280,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
              <TextField
           fullWidth
           id="tamperSealNumber"
-          name="tamperSearNumber"
+          name="tamperSealNumber"
           label="Tamper Seal Number"
           variant="outlined"
           size="small"
@@ -353,19 +344,6 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         />
             <TextField
           fullWidth
-          id="msrp"
-          name="msrp"
-          label="MSRP"
-          variant="outlined"
-          size="small"
-          value={formik.values.msrp}
-          onChange={formik.handleChange}
-          error={formik.touched.msrp && Boolean(formik.errors.msrp)}
-          helperText={formik.touched.msrp && formik.errors.msrp}
-
-        />
-          <TextField
-          fullWidth
           id="linkedVehicles"
           name="linkedVehicles"
           label="Linked Vehicles"
@@ -377,6 +355,20 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           helperText={formik.touched.linkedVehicles && formik.errors.linkedVehicles}
 
         />
+            <TextField
+          fullWidth
+          id="msrp"
+          name="msrp"
+          label="MSRP"
+          variant="outlined"
+          size="small"
+          value={formik.values.msrp}
+          onChange={formik.handleChange}
+          error={formik.touched.msrp && Boolean(formik.errors.msrp)}
+          helperText={formik.touched.msrp && formik.errors.msrp}
+
+        />
+      
          <TextField
           fullWidth
           style={{width: 230}}
@@ -392,15 +384,30 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
 
         />
         
-
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Limiter Type *</InputLabel>
+                  <Select
+                    id="limiterType"
+                    name="limiterType"
+                    label="Limiter Type"      
+                    value={formik.values.limiterType}
+                    onChange={formik.handleChange}
+                    error={formik.touched.limiterType && Boolean(formik.errors.limiterType)}
+                    helperText={formik.touched.limiterType && formik.errors.limiterType}
+                   >
+                   {limiterType.map((item) => 
+                    <MenuItem value={item}>{item}</MenuItem>
+                   )}
+                  </Select>
+            </FormControl>
         <FormControl  variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">Application Standard</InputLabel>
                   <Select
                     id="applicationStandard"
                     name="applicationStandard"
-                    value={formik.values.vehicleType}
+                    value={formik.values.applicationStandard}
                     onChange={formik.handleChange}
-                    label="Application Standard*"
+                    label="Application Standard"
                     error={formik.touched.applicationStandard && Boolean(formik.errors.applicationStandard)}
                     helperText={formik.touched.applicationStandard && formik.errors.applicationStandard}
                    >

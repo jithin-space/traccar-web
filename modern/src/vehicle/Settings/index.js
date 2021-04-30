@@ -5,12 +5,16 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
     root: {
       '& .MuiTextField-root': {
         margin: theme.spacing(2),
-        width: 220,
+        width: 230,
         
       },
      },
@@ -18,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
       marginRight: theme.spacing(1),
       
+    },
+    formControl: {
+      margin: theme.spacing(2),
+      minWidth: 230,
     },
     actionsContainer: {
       display: 'flex',
@@ -37,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
       .string(),
     fuelUnit: yup
       .string(),
-    measurementUnits: yup
+    measurementUnit: yup
       .string(),  
     
  
@@ -52,7 +60,7 @@ export default function AddSettings({handleFormSave, handleBack, activeStep, edi
       currentReading: '',
       averageUsagePerDay: '',
       fuelUnit: '',
-      measurementUnits: '',
+      measurementUnit: '',
      
     };
     if (editItem) {
@@ -139,33 +147,71 @@ export default function AddSettings({handleFormSave, handleBack, activeStep, edi
           helperText={formik.touched.averageUsagePerDay && formik.errors.averageUsagePerDay}
 
         />
-           <TextField
-          fullWidth
-          id="fuelUnit"
-          name="fuelUnit"
-          label="Fuel Unit"
-          variant="outlined"
-          size="small"
-          value={formik.values.fuelUnit}
-          onChange={formik.handleChange}
-          error={formik.touched.fuelUnit && Boolean(formik.errors.fuelUnit)}
-          helperText={formik.touched.fuelUnit && formik.errors.fuelUnit}
-
-        />
-          <TextField
-          fullWidth
-          id="measurementUnit"
-          name="measurementUnit"
-          label="Measurement Unit"
-          variant="outlined"
-          size="small"
-          value={formik.values.measurementUnit}
-          onChange={formik.handleChange}
-          error={formik.touched.measurementUnit && Boolean(formik.errors.measurementUnit)}
-          helperText={formik.touched.measurementUnit && formik.errors.measurementUnit}
-
-        />
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Unit to measure utilization</InputLabel>
+                  <Select    
+                    id="unitToMeasureUtilization"
+                    label="Unit to measure utilization"
+                    name="unitToMeasureUtilization"
+                    value={formik.values.unitToMeasureUtilization}
+                    onChange={formik.handleChange}
+                    error={formik.touched.unitToMeasureUtilization && Boolean(formik.errors.unitToMeasureUtilization)}
+                    helperText={formik.touched.unitToMeasureUtilization && formik.errors.unitToMeasureUtilization}
+                   >
+                   
+                   <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="miles">Miles</MenuItem>
+                    <MenuItem value="kilometers">Kilometers</MenuItem>  
+                    <MenuItem value="Hours">Hours</MenuItem>  
+                   
+                  </Select>
+            </FormControl>
+  
+        <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Fuel Unit</InputLabel>
+                  <Select    
+                    id="fuelUnit"
+                    name="fuelUnit"
+                    label="Fuel Unit"
+                    value={formik.values.fuelUnit}
+                    onChange={formik.handleChange}
+                    error={formik.touched.fuelUnit && Boolean(formik.errors.fuelUnit)}
+                    helperText={formik.touched.fuelUnit && formik.errors.fuelUnit}
+                   >
+                   
+                   <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Gallons(US)">Gallons(US)</MenuItem>
+                    <MenuItem value="Gallons(UK)">Gallons(UK)</MenuItem>  
+                    <MenuItem value="Litres">Litres</MenuItem>  
+                   
+                  </Select>
+            </FormControl>
+  
       
+      <FormControl  variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Measurement Unit</InputLabel>
+                  <Select    
+                    id="measurementUnit"
+                    name="measurementUnit"
+                    label="Measurement Unit"                 
+                    value={formik.values.measurementUnit}
+                    onChange={formik.handleChange}
+                    error={formik.touched.measurementUnit && Boolean(formik.errors.measurementUnit)}
+                    helperText={formik.touched.measurementUnit && formik.errors.measurementUnit}
+                   >
+                     
+                   <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="Imperial">Imperial</MenuItem>
+                    <MenuItem value="Metric">Metric</MenuItem>  
+                  
+                  </Select>
+            </FormControl>
         
         <div className={classes.actionsContainer}>
                 

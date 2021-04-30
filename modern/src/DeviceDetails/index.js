@@ -10,9 +10,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import ToggleButton from '@material-ui/lab/ToggleButton';
 import Switch from '@material-ui/core/Switch';
-import Paper from '@material-ui/core/Paper';
+import { deviceCategories } from '../common/deviceCategories';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -144,7 +144,7 @@ useEffect(() => {
           <TextField
               fullWidth
               id="name"
-              label="Name"
+              label="Name *"
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
@@ -155,12 +155,12 @@ useEffect(() => {
             <TextField
               fullWidth
               id="uniqueId"
-              label="Identifier"
+              label="Identifier *"
               name="uniqueId"
               value={formik.values.uniqueId}
               onChange={formik.handleChange}
               error={formik.touched.uniqueId && Boolean(formik.errors.uniqueId)}
-              helperText={formik.touched.uniqueId && formik.errors.uniqueId ? 'UniqueID must be a number' : '' }
+              helperText={formik.touched.uniqueId && formik.errors.uniqueId ? 'Identifier must be a number' : 'ex: 12345' }
               variant="outlined"
             />   
            
@@ -243,12 +243,10 @@ useEffect(() => {
                     error={formik.touched.category && Boolean(formik.errors.category)}
                     helperText={formik.touched.category && formik.errors.category}
                    >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    
+                    {deviceCategories.map((item) => 
+                      <MenuItem value={item}>{item}</MenuItem>
+                    ) }
                   </Select>
               </FormControl> 
           
