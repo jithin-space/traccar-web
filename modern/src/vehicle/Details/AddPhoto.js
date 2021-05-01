@@ -96,7 +96,7 @@ export default function AddIdentification({handleFormSave, activeStep, editItem,
           type: values.photo.type,
           size: `${values.photo.size} bytes`
         }
-        values.photo = imgData;
+        values.photo = imgData || null;
         //alert(JSON.stringify(values), null, 2);
 
         setLocalSave(values); // value should be saved at local storage for displaying it 

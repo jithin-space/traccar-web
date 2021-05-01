@@ -153,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getSteps() {
-  return ['Identification', 'Upload Image', 'Classification', 'Additional Details',
+  return ['Identification', 'Classification', 'Additional Details',
           'Customer Details', 'Specification', 
           'Engine', 'Transmission', 'Wheels & Tyres', 'Fluids','Settings'
           ];
@@ -183,71 +183,64 @@ function getStepContent(
                 handleFormSave={handleIdentificationForm}
                 activeStep={activeStep}
                 editItem={editItem}
-              />;
-    case 1: 
-      return <AddPhoto 
-                handleFormSave={handleImage}
-                handleBack={handleBack}
-                activeStep={activeStep}
-                editItem={editItem}
-              />        
-    case 2:
+              />;     
+    case 1:
       return <AddClassification 
                 handleFormSave={handleClassificationForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />;
-    case 3: 
+    case 2: 
       return <AddAdditionalDetails 
                 handleFormSave={handleAdditionalForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />          
-    case 4: 
+    case 3: 
       return <AddCustomerDetails 
               handleFormSave={handleCustomerForm}
               handleBack={handleBack}
               activeStep={activeStep}
               editItem={editItem}
               />      
-    case 5: 
+    case 4: 
         return <AddSpecificaion 
                 handleFormSave={handleSpecificationForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
                />              
-    case 6:
+    case 5:
       return  <AddEngine
                 handleFormSave={handleEngineForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />
-    case 7: 
+    case 6: 
       return  <AddTransmission 
               handleFormSave={handleTransmissionForm}
               handleBack={handleBack}
               activeStep={activeStep}
               editItem={editItem}
             />         
-    case 8:   
+    case 7:   
       return  <AddWheelAndTyres 
               handleFormSave={handleWheelsForm}
               handleBack={handleBack}
               activeStep={activeStep}
               editItem={editItem}
               />        
-    case 9:
+    case 8:
       return   <AddFluids 
                 handleFormSave={handleFluidsForm}
                 handleBack={handleBack}
                 activeStep={activeStep}
                 editItem={editItem}
               />
-    case 10: 
+    case 9: 
       return  <AddSettings 
                 handleFormSave={handleSettingsForm}
                 handleBack={handleBack}
@@ -259,10 +252,10 @@ function getStepContent(
   }
 }
 
-export default function VehicleVerticalStepper({ firstFormData, handleSubmit, goBackStep, editItem }) {
+export default function VehicleVerticalStepper({  firstFormData, handleSubmit, goBackStep, editItem , totalSteps}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  
+
   const [identificationData, setIdentificationData] = useState({});
   const [imageData, setImageData] = useState({});
   const [classificationData, setClassificationData] = useState({});
@@ -342,9 +335,9 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
       ...firstFormData,
       ...attributesData
     }
-    //setFinalData({ finalData });
-    handleSubmit(finalData);                    //fired at wizard.js
+    setFinalData({ finalData });               
     //alert(JSON.stringify(finalData, null, 2));
+    handleSubmit(finalData);
   }
   const goBackToFirstForm = async() => {
     goBackStep();
@@ -413,7 +406,7 @@ export default function VehicleVerticalStepper({ firstFormData, handleSubmit, go
               </Grid>  
              <Grid item xs={6}>
              <Button disabled={activeStep !== steps.length} fullWidth variant="contained" color="primary" onClick={handleFinalSubmission} className={classes.button}>
-                Submit 
+               {totalSteps.length === 2 ? 'Submit' : 'Save & Continue'}
               </Button>
               
              </Grid>

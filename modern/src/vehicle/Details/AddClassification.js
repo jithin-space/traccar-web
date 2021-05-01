@@ -120,7 +120,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           fullWidth
           id="company"
           name="company"
-          label="Company"
+          label="Company *"
           variant="outlined"
           size="small"
           value={formik.values.company}
@@ -133,7 +133,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           fullWidth
           id="department"
           name="department"
-          label="Department"
+          label="Department *"
           variant="outlined"
           size="small"
           value={formik.values.department}
@@ -168,24 +168,12 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           helperText={formik.touched.assignUser && formik.errors.assignUser}
 
         />
-           <TextField
-          fullWidth
-          id="ownership"
-          name="ownership"
-          label="Ownership"
-          variant="outlined"
-          size="small"
-          value={formik.values.ownership}
-          onChange={formik.handleChange}
-          error={formik.touched.ownership && Boolean(formik.errors.ownership)}
-          helperText={formik.touched.ownership && formik.errors.ownership}
-
-        />
+      
         <FormControl  variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Status *</InputLabel>
                   <Select
                     id="status"
-                    label="Status"
+                    label="Status *"
                     name="status"
                     value={formik.values.status}
                     onChange={formik.handleChange}

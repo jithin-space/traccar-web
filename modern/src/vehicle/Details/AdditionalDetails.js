@@ -385,7 +385,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         />
         
         <FormControl  variant="outlined" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-outlined-label">Limiter Type *</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Limiter Type</InputLabel>
                   <Select
                     id="limiterType"
                     name="limiterType"
@@ -393,7 +393,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
                     value={formik.values.limiterType}
                     onChange={formik.handleChange}
                     error={formik.touched.limiterType && Boolean(formik.errors.limiterType)}
-                    helperText={formik.touched.limiterType && formik.errors.limiterType}
+                   
                    >
                    {limiterType.map((item) => 
                     <MenuItem value={item}>{item}</MenuItem>
@@ -409,7 +409,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
                     onChange={formik.handleChange}
                     label="Application Standard"
                     error={formik.touched.applicationStandard && Boolean(formik.errors.applicationStandard)}
-                    helperText={formik.touched.applicationStandard && formik.errors.applicationStandard}
+                    
                    >
                    {typeOfStandards.map((item) => 
                     <MenuItem value={item}>{item}</MenuItem>
@@ -425,7 +425,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
                     onChange={formik.handleChange}
                     label="Body Type"
                     error={formik.touched.bodyType && Boolean(formik.errors.bodyType)}
-                    helperText={formik.touched.bodyType && formik.errors.bodyType}
+                   
                    >
                    {bodyType.map((item) => 
                     <MenuItem value={item}>{item}</MenuItem>
@@ -441,7 +441,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
                     onChange={formik.handleChange}
                     label="Body Sub Type"
                     error={formik.touched.bodySubtype && Boolean(formik.errors.bodySubtype)}
-                    helperText={formik.touched.bodySubtype && formik.errors.bodySubtype}
+                    
                    >
                    {bodySubtype.map((item) => 
                     <MenuItem value={item}>{item}</MenuItem>
@@ -457,7 +457,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
                     onChange={formik.handleChange}
                     label="deviceType"
                     error={formik.touched.deviceType && Boolean(formik.errors.deviceType)}
-                    helperText={formik.touched.deviceType && formik.errors.deviceType}
+                    
                    >
                    {deviceType.map((item) => 
                     <MenuItem value={item}>{item}</MenuItem>

@@ -1,6 +1,16 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../reactHelper';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+
+  formControl: {
+    margin: theme.spacing(2),
+    minWidth: 300,
+    },
+ 
+}));
 
 const LinkField = ({
   margin,
@@ -16,6 +26,7 @@ const LinkField = ({
 }) => {
   const [items, setItems] = useState();
   const [linked, setLinked] = useState();
+  const classes = useStyles();
 
   useEffectAsync(async () => {
     const response = await fetch(endpointAll);
@@ -61,15 +72,17 @@ const LinkField = ({
 
   if (items && linked) {
     return (
-      <FormControl margin={margin} variant={variant}>
+      <FormControl margin={margin} variant="outlined" className={classes.formControl}>
         <InputLabel>{label}</InputLabel>
         <Select
           multiple
           value={linked}
-          onChange={onChange}>
+          onChange={onChange}
+          >
           {items.map(item => (
             <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
           ))}
+          
         </Select>
       </FormControl>
     );

@@ -6,11 +6,10 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Connections from './Connections';
-import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import VehicleVerticalStepper from './vertical-stepper';
+import ConnectionsForm from './Connections';
 import { StepLabel } from '@material-ui/core';
 import clsx from 'clsx';
 import Check from '@material-ui/icons/Check';
@@ -106,24 +105,12 @@ function getSteps(editMode) {
   return steps;
 }
 
-function getStepContent(editItem, step, handleFormSave, firstFormData, handleSubmitForm, goBackStep) {
-  if(!editItem) {
-    switch (step) {
-      case 0:
-        return <DeviceVerticalStepper
-                  handleFormSave={handleFormSave}
-              />;
-      case 1:
-        return <VehicleVerticalStepper
-                  firstFormData={firstFormData}
-                  handleSubmit={handleSubmitForm}
-                  goBackStep={goBackStep}
-                />;
-      default:
-        return 'Unknown step';
-    }
-  } else {
-    switch (step) {
+function getStepContent(
+            editItem, steps, handleFormSave, firstFormData, handleSubmitForm, goBackStep, secondFormData,
+            handlePostSubmission, totalSteps ) 
+  {
+  
+    switch (steps) {
       case 0:
         return <DeviceVerticalStepper
                   editItem={editItem}
@@ -135,13 +122,18 @@ function getStepContent(editItem, step, handleFormSave, firstFormData, handleSub
                   firstFormData={firstFormData}
                   handleSubmit={handleSubmitForm}
                   goBackStep={goBackStep}
+                  totalSteps={totalSteps}
                 />;
-      case 2:
-        return  <Connections />;
+      case 2: 
+        return <ConnectionsForm 
+                  item={editItem}     
+                  handleSubmit={handlePostSubmission}
+                  secondFormData={secondFormData}
+                  goBackStep={goBackStep}
+              />          
       default:
         return 'Unknown step';
     }
-  }
 
 }
 
@@ -151,6 +143,7 @@ export default function Wizard() {
   const [completed, setCompleted] = React.useState({});
   
   const [firstFormData, setFirstFormData] = useState({});
+  const [secondFormData, setSecondFormData ] = useState({});
   const [itemtoEdit, setItemtoEdit] = useState({}); //item to edit is set here
   const history = useHistory();
   const { id } = useParams();
@@ -184,7 +177,16 @@ export default function Wizard() {
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps();
   };
+
   const handleFinalSubmit = async (value) => {
+    if(id) {
+      handleSecondForm(value); //if edit mode, go to next form
+    } else {  
+      handlePostSubmission(value)   //otherwise jumpt to POST request
+    }   
+  };
+
+  const handlePostSubmission = async(value) => {
     handleComplete();
     let endpoint = "devices"
     let url = `/api/${endpoint}`;
@@ -202,10 +204,15 @@ export default function Wizard() {
       history.goBack();
     }
     //alert(JSON.stringify(value, null, 2));
-  };
+  }
 
   const handleFirstForm = (value) => {
     setFirstFormData(value);
+    handleNext();
+  }
+
+  const handleSecondForm = (value) => {
+    setSecondFormData(value);
     handleNext();
   }
 
@@ -268,11 +275,14 @@ export default function Wizard() {
                     <Paper elevation={0} className={classes.paper}>
                         {getStepContent(
                           itemtoEdit,
-                          activeStep, 
+                          activeStep,
                           handleFirstForm, 
                           firstFormData, 
                           handleFinalSubmit,
-                          handleBack,                         
+                          handleBack,  
+                          secondFormData,
+                          handlePostSubmission,
+                          steps,
                           )}
                     </Paper>
                     </Grid>

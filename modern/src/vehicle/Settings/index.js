@@ -109,18 +109,6 @@ export default function AddSettings({handleFormSave, handleBack, activeStep, edi
     return (
      <div>
      <form className={classes.root} onSubmit={formik.handleSubmit}>
-        <TextField
-           fullWidth
-           id="unitToMeasureUtilization"
-           label="Unit to measure utilization"
-           name="unitToMeasureUtilization"
-           value={formik.values.unitToMeasureUtilization}
-           onChange={formik.handleChange}
-           error={formik.touched.unitToMeasureUtilization && Boolean(formik.errors.unitToMeasureUtilization)}
-           helperText={formik.touched.unitToMeasureUtilization && formik.errors.unitToMeasureUtilization}
-           variant="outlined"
-           size="small"
-        />
          <TextField
           fullWidth
           id="currentReading"
@@ -156,7 +144,7 @@ export default function AddSettings({handleFormSave, handleBack, activeStep, edi
                     value={formik.values.unitToMeasureUtilization}
                     onChange={formik.handleChange}
                     error={formik.touched.unitToMeasureUtilization && Boolean(formik.errors.unitToMeasureUtilization)}
-                    helperText={formik.touched.unitToMeasureUtilization && formik.errors.unitToMeasureUtilization}
+                   
                    >
                    
                    <MenuItem value="">
@@ -178,7 +166,7 @@ export default function AddSettings({handleFormSave, handleBack, activeStep, edi
                     value={formik.values.fuelUnit}
                     onChange={formik.handleChange}
                     error={formik.touched.fuelUnit && Boolean(formik.errors.fuelUnit)}
-                    helperText={formik.touched.fuelUnit && formik.errors.fuelUnit}
+                   
                    >
                    
                    <MenuItem value="">
@@ -201,7 +189,6 @@ export default function AddSettings({handleFormSave, handleBack, activeStep, edi
                     value={formik.values.measurementUnit}
                     onChange={formik.handleChange}
                     error={formik.touched.measurementUnit && Boolean(formik.errors.measurementUnit)}
-                    helperText={formik.touched.measurementUnit && formik.errors.measurementUnit}
                    >
                      
                    <MenuItem value="">
