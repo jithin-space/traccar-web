@@ -106,8 +106,8 @@ const SpeedReportPage = () => {
   const classes = useStyles();
   let reduced = {};
   let avgSpeed = 0;
-  let limit = (device.attributes && device.attributes.max_speed) ? device.attributes.max_speed : 70;
-
+	//let limit = (device.attributes && device.attributes.max_speed) ? device.attributes.max_speed : 70;
+  let limit = 80;
   const columns = [
     {
       field: "fixtime",
