@@ -28,22 +28,22 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-        engineCylinders :  yup.string(),        
-        engineBrand     :  yup.string(),        
-        engineNumber    :  yup.string(),        
-        aspiration      :  yup.string(),       
-        blockType       :  yup.string(),      
-        bore            :  yup.string(), 
-        camType         :  yup.string(),    
-        compression     :  yup.string(),        
-        valves          :  yup.string(),   
-        displacement    :  yup.string(),       
-        fuelInduction   :  yup.string(),       
-        maxHP           :  yup.string(),  
-        maxTorque       :  yup.string(),      
-        redlineRPM      :  yup.string(),       
-        engineStroke    :  yup.string(),   
-        engineSummary   :  yup.string(),      
+        engineCylinders :  yup.string().nullable(true),        
+        engineBrand     :  yup.string().nullable(true),        
+        engineNumber    :  yup.string().nullable(true),        
+        aspiration      :  yup.string().nullable(true),       
+        blockType       :  yup.string().nullable(true),      
+        bore            :  yup.string().nullable(true), 
+        camType         :  yup.string().nullable(true),    
+        compression     :  yup.string().nullable(true),        
+        valves          :  yup.string().nullable(true),   
+        displacement    :  yup.string().nullable(true),       
+        fuelInduction   :  yup.string().nullable(true),       
+        maxHP           :  yup.string().nullable(true),  
+        maxTorque       :  yup.string().nullable(true),      
+        redlineRPM      :  yup.string().nullable(true),       
+        engineStroke    :  yup.string().nullable(true),   
+        engineSummary   :  yup.string().nullable(true),      
  
   });
   

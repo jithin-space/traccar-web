@@ -37,21 +37,12 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-    status: yup
-      .string('Enter device name')
-      .required('required'),
-    company: yup
-      .string('')
-      .required('required'),
-      department: yup
-      .string()
-      .required('required'),
-      operator: yup
-      .string(),
-      assignUser: yup
-      .string(),  
-      ownership: yup
-      .string(),
+    status          : yup.string().required('required').nullable(true),
+    company         : yup.string().required('required').nullable(true),
+    department      : yup.string().required('required').nullable(true),
+    operator        : yup.string().nullable(true),
+    assignUser      : yup.string().nullable(true),
+    ownership       : yup.string().nullable(true),
  
   });
   

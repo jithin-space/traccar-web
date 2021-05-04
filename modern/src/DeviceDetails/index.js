@@ -54,26 +54,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const validationSchema = yup.object({
-  name: yup
-    .string('value must be a string')
-    .required('required'),
-  uniqueId: yup
-    .number('Enter a uniqueId')
-    .integer('Id should be an Integer')
-    .required('required'),
-  groupId: yup
-    .number('value must be a number')
-    .integer('Id should be an Integer'),
-  phone: yup
-    .string('value must be a string').nullable(true),
-  model: yup
-     .string('value must be a string').nullable(true),
-  contact: yup
-     .string('value must be a string').nullable(true),
-  category: yup
-     .string('value must be a string'),
-  disabled: yup
-     .boolean(),   
+  name      : yup.string().required('required'),
+  uniqueId  : yup.number().integer().required('required'),
+  groupId   : yup.number().integer().nullable(true),
+  phone     : yup.string().nullable(true),
+  model     : yup.string().nullable(true),
+  contact   : yup.string().nullable(true),
+  category  : yup.string().nullable(true),
+  disabled  : yup.boolean(),   
 });
 
 
@@ -185,7 +173,6 @@ useEffect(() => {
          <h4>Extra</h4>
               <TextField
                   fullWidth
-                  disabled
                   id="groupId"
                   label="Group"
                   name="groupId"

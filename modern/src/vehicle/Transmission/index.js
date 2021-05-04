@@ -28,10 +28,10 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-    transmissionSummary    : yup.string(),        
-    transmissionBrand      : yup.string(),        
-    transmissionType       : yup.string(),        
-    transmissionGears      : yup.string(),    
+    transmissionSummary    : yup.string().nullable(true),        
+    transmissionBrand      : yup.string().nullable(true),        
+    transmissionType       : yup.string().nullable(true),        
+    transmissionGears      : yup.string().nullable(true),    
  
   });
   

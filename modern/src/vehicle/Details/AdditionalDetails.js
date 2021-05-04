@@ -41,29 +41,29 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-        vehicleOwnerName            :  yup.string(),      
-        vehicleOwnerID              :  yup.string(),
-        ownerPhoneNumber            :  yup.string(),
-        limiterType                 :  yup.string(),
-        deviceSecondaryNumber       :  yup.string(),
-        dealerName                  :  yup.string(),
-        dealerLocationOfStation     :  yup.string(),
-        emailAddress                :  yup.string(),
-        agentPhoneNumber            :  yup.string(),
-        businessRegNumber           :  yup.string(),
-        limiterSerial               :  yup.string(),
-        tamperSealNumber            :  yup.string(),
-        fittingAgentsName           :  yup.string(),
-        fittingAgentID              :  yup.string(),
-        applicationStandard         :  yup.string(),
-        installationCountry         :  yup.string(),
-        colour                      :  yup.string(),
-        bodyType                    :  yup.string(),
-        bodySubtype                 :  yup.string(),
-        msrp                        :  yup.string(),
-        linkedVehicles              :  yup.string(),
-        deviceType                  :  yup.string(),
-        primaryFuelTankCapacity     :  yup.string(),
+        vehicle_owner               :  yup.string().nullable(true),      
+        vehicleOwnerID              :  yup.string().nullable(true),
+        ownerPhoneNumber            :  yup.string().nullable(true),
+        speed_limiter_type          :  yup.string().nullable(true),
+        deviceSecondaryNumber       :  yup.string().nullable(true),
+        dealerName                  :  yup.string().nullable(true),
+        dealerLocationOfStation     :  yup.string().nullable(true),
+        emailAddress                :  yup.string().nullable(true),
+        agentPhoneNumber            :  yup.string().nullable(true),
+        businessRegNumber           :  yup.string().nullable(true),
+        limiterSerial               :  yup.string().nullable(true),
+        tamper_seal_number          :  yup.string().nullable(true),
+        fittingAgentsName           :  yup.string().nullable(true),
+        fittingAgentID              :  yup.string().nullable(true),
+        application_standard        :  yup.string().nullable(true),
+        installation_country        :  yup.string().nullable(true),
+        colour                      :  yup.string().nullable(true),
+        bodyType                    :  yup.string().nullable(true),
+        bodySubtype                 :  yup.string().nullable(true),
+        msrp                        :  yup.string().nullable(true),
+        linkedVehicles              :  yup.string().nullable(true),
+        deviceType                  :  yup.string().nullable(true),
+        primaryFuelTankCapacity     :  yup.string().nullable(true),
  
   });
   
@@ -72,10 +72,10 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
     const classes = useStyles();
     const [localSave, setLocalSave] = useState({});
     const initialValues = {
-        vehicleOwnerName           :   '',      
+        vehicle_owner              :   '',      
         vehicleOwnerID             :   '',
         ownerPhoneNumber           :   '',
-        limiterType                :   '',
+        speed_limiter_type         :   '',
         deviceSecondaryNumber      :   '',
         dealerName                 :   '',
         dealerLocationOfStation    :   '',
@@ -83,11 +83,11 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         agentPhoneNumber           :   '',
         businessRegNumber          :   '',
         limiterSerial              :   '',
-        tamperSealNumber           :   '',
+        tamper_seal_number         :   '',
         fittingAgentsName          :   '',
         fittingAgentID             :   '',
-        applicationStandard        :   '',
-        installationCountry        :   '',
+        application_standard        :   '',
+        installation_country        :   '',
         colour                     :   '',
         bodyType                   :   '',
         bodySubtype                :   '',
@@ -147,13 +147,13 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
      <form className={classes.root} onSubmit={formik.handleSubmit}>
         <TextField
            fullWidth
-           id="vehicleOwnerName"
+           id="vehicle_owner"
            label="Vehicle Owner No."
-           name="vehicleOwnerName"
-           value={formik.values.vehicleOwnerName}
+           name="vehicle_owner"
+           value={formik.values.vehicle_owner}
            onChange={formik.handleChange}
-           error={formik.touched.vehicleOwnerName && Boolean(formik.errors.vehicleOwnerName)}
-           helperText={formik.touched.vehicleOwnerName && formik.errors.vehicleOwnerName}
+           error={formik.touched.vehicle_owner && Boolean(formik.errors.vehicle_owner)}
+           helperText={formik.touched.vehicle_owner && formik.errors.vehicle_owner}
            variant="outlined"
            size="small"
         />
@@ -182,9 +182,7 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
           error={formik.touched.ownerPhoneNumber && Boolean(formik.errors.ownerPhoneNumber)}
           helperText={formik.touched.ownerPhoneNumber && formik.errors.ownerPhoneNumber}
 
-        />
-         
-        
+        />      
         
           <TextField
           fullWidth
@@ -279,15 +277,15 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         />
              <TextField
           fullWidth
-          id="tamperSealNumber"
-          name="tamperSealNumber"
+          id="tamper_seal_number"
+          name="tamper_seal_number"
           label="Tamper Seal Number"
           variant="outlined"
           size="small"
-          value={formik.values.tamperSealNumber}
+          value={formik.values.tamper_seal_number}
           onChange={formik.handleChange}
-          error={formik.touched.tamperSealNumber && Boolean(formik.errors.tamperSealNumber)}
-          helperText={formik.touched.tamperSealNumber && formik.errors.tamperSealNumber}
+          error={formik.touched.tamper_seal_number && Boolean(formik.errors.tamper_seal_number)}
+          helperText={formik.touched.tamper_seal_number && formik.errors.tamper_seal_number}
 
         />
             <TextField
@@ -318,15 +316,15 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         />
          <TextField
           fullWidth
-          id="installationCountry"
-          name="installationCountry"
+          id="installation_country"
+          name="installation_country"
           label="Installation Country"
           variant="outlined"
           size="small"
-          value={formik.values.installationCountry}
+          value={formik.values.installation_country}
           onChange={formik.handleChange}
-          error={formik.touched.installationCountry && Boolean(formik.errors.installationCountry)}
-          helperText={formik.touched.installationCountry && formik.errors.installationCountry}
+          error={formik.touched.installation_country && Boolean(formik.errors.installation_country)}
+          helperText={formik.touched.installation_country && formik.errors.installation_country}
 
         />
            <TextField
@@ -387,12 +385,12 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         <FormControl  variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">Limiter Type</InputLabel>
                   <Select
-                    id="limiterType"
-                    name="limiterType"
+                    id="speed_limiter_type"
+                    name="speed_limiter_type"
                     label="Limiter Type"      
-                    value={formik.values.limiterType}
+                    value={formik.values.speed_limiter_type}
                     onChange={formik.handleChange}
-                    error={formik.touched.limiterType && Boolean(formik.errors.limiterType)}
+                    error={formik.touched.speed_limiter_type && Boolean(formik.errors.speed_limiter_type)}
                    
                    >
                    {limiterType.map((item) => 
@@ -403,12 +401,12 @@ export default function AddClassification({handleFormSave, handleBack, activeSte
         <FormControl  variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">Application Standard</InputLabel>
                   <Select
-                    id="applicationStandard"
-                    name="applicationStandard"
-                    value={formik.values.applicationStandard}
+                    id="application_standard"
+                    name="application_standard"
+                    value={formik.values.application_standard}
                     onChange={formik.handleChange}
                     label="Application Standard"
-                    error={formik.touched.applicationStandard && Boolean(formik.errors.applicationStandard)}
+                    error={formik.touched.application_standard && Boolean(formik.errors.application_standard)}
                     
                    >
                    {typeOfStandards.map((item) => 

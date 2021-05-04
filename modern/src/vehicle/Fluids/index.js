@@ -29,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-    oilCapacity: yup.string(),   
-    fuelType: yup.string(),
-    fuelQuality: yup.string(),
-    fuelTank1Capacity: yup.string(),
-    fuelTank2Capacity: yup.string(),
+    oilCapacity      : yup.string().nullable(true),   
+    fuelType         : yup.string().nullable(true),
+    fuelQuality      : yup.string().nullable(true),
+    fuelTank1Capacity: yup.string().nullable(true),
+    fuelTank2Capacity: yup.string().nullable(true),
  
   });
   

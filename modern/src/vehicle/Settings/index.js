@@ -37,16 +37,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-    unitToMeasureUtilization: yup
-      .string(''),
-    currentReading: yup
-      .string(''),
-    averageUsagePerDay: yup
-      .string(),
-    fuelUnit: yup
-      .string(),
-    measurementUnit: yup
-      .string(),  
+    unitToMeasureUtilization  : yup.string().nullable(true),
+    currentReading            : yup.string().nullable(true),
+    averageUsagePerDay        : yup.string().nullable(true),
+    fuelUnit                  : yup.string().nullable(true),
+    measurementUnit           : yup.string().nullable(true),  
     
  
   });

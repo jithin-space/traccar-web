@@ -28,18 +28,18 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-    driveType               :  yup.string(),
-    brakeSystem             :  yup.string(),
-    frontTrackWidth         :  yup.string(),
-    rearTrackWidth          :  yup.string(),
-    wheelbase               :  yup.string(),
-    frontWheelDiameter      :  yup.string(),
-    rearWheelDiameter       :  yup.string(),
-    rearAxle                :  yup.string(),
-    frontTyreType           :  yup.string(),
-    frontTyrePSI            :  yup.string(),
-    rearTyreType            :  yup.string(),
-    rearTyrePSI             :  yup.string(),
+    driveType               :  yup.string().nullable(true),
+    brakeSystem             :  yup.string().nullable(true),
+    frontTrackWidth         :  yup.string().nullable(true),
+    rearTrackWidth          :  yup.string().nullable(true),
+    wheelbase               :  yup.string().nullable(true),
+    frontWheelDiameter      :  yup.string().nullable(true),
+    rearWheelDiameter       :  yup.string().nullable(true),
+    rearAxle                :  yup.string().nullable(true),
+    frontTyreType           :  yup.string().nullable(true),
+    frontTyrePSI            :  yup.string().nullable(true),
+    rearTyreType            :  yup.string().nullable(true),
+    rearTyrePSI             :  yup.string().nullable(true),
  
   });
   

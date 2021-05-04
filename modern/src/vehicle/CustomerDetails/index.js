@@ -29,20 +29,13 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-      customerName: yup
-      .string(''),
-      customerMobile: yup
-      .string(''),
-      customerAddress: yup
-      .string(),
-      addressProofType: yup
-      .string(),
-      addressProofNumber: yup
-      .string(),  
-      identityProofType: yup
-      .string(),
-      identitiyProofNumber: yup
-      .string()
+      customerName          : yup.string().nullable(true),
+      customerMobile        : yup.string().nullable(true),
+      customerAddress       : yup.string().nullable(true),
+      addressProofType      : yup.string().nullable(true),
+      addressProofNumber    : yup.string().nullable(true),  
+      identityProofType     : yup.string().nullable(true),
+      identitiyProofNumber  : yup.string().nullable(true),
  
   });
   

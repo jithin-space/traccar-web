@@ -29,29 +29,21 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   const validationSchema = yup.object({
-    towingCapacity: yup
-      .string(),
-    maxPayload: yup
-      .string(),
-    epaCity: yup
-      .string(),
-    epaHighway: yup
-      .string(),
-    epaCombined: yup
-      .string(),  
-    vehicleWidth: yup
-      .string(),
-    vehicleHeight: yup
-      .string(), 
-    vehicleLength: yup
-      .string(), 
-      interiorVolume          :   yup.string(),
-      passengerVolume         :   yup.string(),
-      cargoVolume             :   yup.string(),
-      groundClearence         :   yup.string(),
-      bedLength               :   yup.string(),
-      curbWeight              :   yup.string(),
-      grossVehicleWeightRating  : yup.string(),
+    towingCapacity          : yup.string().nullable(true),
+    maxPayload              : yup.string().nullable(true),
+    epaCity                 : yup.string().nullable(true),
+    epaHighway              : yup.string().nullable(true),
+    epaCombined             : yup.string().nullable(true),  
+    vehicleWidth            : yup.string().nullable(true),
+    vehicleHeight           : yup.string().nullable(true), 
+    vehicleLength           : yup.string().nullable(true), 
+    interiorVolume          : yup.string().nullable(true),
+    passengerVolume         : yup.string().nullable(true),
+    cargoVolume             : yup.string().nullable(true),
+    groundClearence         : yup.string().nullable(true),
+    bedLength               : yup.string().nullable(true),
+    curbWeight              : yup.string().nullable(true),
+    grossVehicleWeightRating: yup.string().nullable(true),
 
 
  
