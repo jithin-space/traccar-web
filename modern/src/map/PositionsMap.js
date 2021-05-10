@@ -164,8 +164,7 @@ const PositionsMap = ({ positions }) => {
 
   useEffect(() => {
     if(debouncedPositions) {
-      console.log(debouncedPositions);
-      console.log('working');
+      console.log('debounce map');
       map.getSource(id).setData({
         type: 'FeatureCollection',
         features: positions.map(position => ({

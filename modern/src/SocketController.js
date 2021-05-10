@@ -35,6 +35,7 @@ const SocketController = () => {
     };
 
     socket.onmessage = (event) => {
+      console.log('debounce store');
       const data = JSON.parse(event.data);
       if (data.devices) {
         dispatch(devicesActions.update(data.devices));
