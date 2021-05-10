@@ -7,12 +7,15 @@ import { map } from './Map';
 import store from '../store';
 import { useHistory } from 'react-router-dom';
 import StatusView from './StatusView';
+import { useDebounce } from 'use-debounce';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
 
   const history = useHistory();
   const devices = useSelector(state => state.devices.items);
+
+ const [debouncedPositions] = useDebounce(positions, 5000);
 
   const createFeature = (devices, position) => {
     const device = devices[position.deviceId] || null;
@@ -141,22 +144,41 @@ const PositionsMap = ({ positions }) => {
     };
   }, [onClickCallback]);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log(positions);
-    console.log('positions repeat');
-    map.getSource(id).setData({
-      type: 'FeatureCollection',
-      features: positions.map(position => ({
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [position.longitude, position.latitude],
-        },
-        properties: createFeature(devices, position),
-      }))
-    });
-  }, [devices, positions]);
+  //   console.log('normal update');
+
+  //   map.getSource(id).setData({
+  //     type: 'FeatureCollection',
+  //     features: positions.map(position => ({
+  //       type: 'Feature',
+  //       geometry: {
+  //         type: 'Point',
+  //         coordinates: [position.longitude, position.latitude],
+  //       },
+  //       properties: createFeature(devices, position),
+  //     }))
+  //   });
+  // }, [devices, positions]);
+
+
+  useEffect(() => {
+    if(debouncedPositions) {
+      console.log(debouncedPositions);
+      console.log('working');
+      map.getSource(id).setData({
+        type: 'FeatureCollection',
+        features: positions.map(position => ({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [position.longitude, position.latitude],
+          },
+          properties: createFeature(devices, position),
+        }))
+      });
+    }
+  },[debouncedPositions]);
 
   return null;
 }
