@@ -12,7 +12,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Switch from '@material-ui/core/Switch';
 import { deviceCategories } from '../common/deviceCategories';
-
+import { useEffectAsync } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,9 +65,15 @@ const validationSchema = yup.object({
 });
 
 
-export default function DeviceDetails({ handleFormSave, editItem}) {
+export default function DeviceDetails({ 
+  handleFormSave, 
+  editItem,
+  titleGetter = item => item.name,
+  keyGetter = item => item.id,
+}) {
   const classes = useStyles();
   const [localSave, setLocalSave] = useState({});
+  const [groupItems, setGroupItems] = useState([]);
   const initialValues = {
     name: '',
     uniqueId: '',
@@ -109,6 +115,13 @@ useEffect(() => {
 useEffect(() => {
   localStorage.setItem('first-form', JSON.stringify(localSave));
 });
+
+useEffectAsync(async () => {
+  const res = await fetch('/api/groups');
+  if(res.ok) {
+    setGroupItems(await res.json());
+  }
+}, [])
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -171,18 +184,7 @@ useEffect(() => {
          </Grid>
          <Grid item xs={3}>
          <h4>Extra</h4>
-              <TextField
-                  fullWidth
-                  id="groupId"
-                  label="Group"
-                  name="groupId"
-                  value={formik.values.group}
-                  onChange={formik.handleChange}
-                  error={formik.touched.groupId && Boolean(formik.errors.groupId)}
-                  helperText={formik.touched.groupId && formik.errors.groupId}  
-                  variant="outlined"
-                  size="small"
-                />
+
                 <TextField
                   fullWidth                
                   id="phone"
@@ -219,6 +221,25 @@ useEffect(() => {
                   variant="outlined"
                   size="small"
                 />  
+
+                <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Group</InputLabel>
+                  <Select
+                    id="groupId"
+                    name="groupId"
+                    value={formik.values.groupId || 0}
+                    onChange={formik.handleChange}
+                    label="Group"
+                    error={formik.touched.groupId && Boolean(formik.errors.groupId)}
+                    helperText={formik.touched.groupId && formik.errors.groupId}
+                   >
+                  <MenuItem value={0}>None</MenuItem>
+                   {groupItems.map(item => (
+                      <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
+                      ))}
+                  </Select>
+              </FormControl>
+              
                 <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
                   <Select
@@ -230,7 +251,7 @@ useEffect(() => {
                     error={formik.touched.category && Boolean(formik.errors.category)}
                     helperText={formik.touched.category && formik.errors.category}
                    >
-                    
+                    <MenuItem value="">None</MenuItem>
                     {deviceCategories.map((item) => 
                       <MenuItem value={item}>{item}</MenuItem>
                     ) }
