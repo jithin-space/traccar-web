@@ -78,7 +78,6 @@ const SocketController = () => {
         positions: [],
       };
     }, 5000);
-  }
     // socket.onmessage = (event) => {
     //   console.log('debounce store');
     //   const data = JSON.parse(event.data);
