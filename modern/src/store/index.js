@@ -5,9 +5,9 @@ import { devicesReducer as devices } from './devices';
 import { positionsReducer as positions } from './positions';
 
 import { batchedSubscribe } from 'redux-batched-subscribe';
-import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 
-const debounceNotify = debounce(notify => notify(),4000);
+const throttleNotify = throttle(notify => notify(),10000);
 
 const reducer = combineReducers({
   session,
@@ -19,4 +19,4 @@ export { sessionActions } from './session';
 export { devicesActions } from './devices';
 export { positionsActions } from './positions';
 
-export default configureStore({ reducer, enhancers: [batchedSubscribe(debounceNotify)] });
+export default configureStore({ reducer, enhancers: [batchedSubscribe(throttleNotify)] });
