@@ -34,6 +34,7 @@ import VendorsPage from './admin/VendorsPage';
 import CompanyAdminsPage from './vendor/CompanyAdminsPage';
 import CompanyAdminPage from './vendor/CompanyAdminPage';
 import VendorPage from './VendorPage';
+import WizardPage from './wizard';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -60,6 +61,7 @@ useEffect(() => {
               <Route exact path='/vendor/:v_id/company/:c_id?' component={CompanyAdminPage} />
               <Route exact path='/vendor/:id?' component={VendorPage} />
               <Route exact path='/device/:id?' component={DevicePage} />
+              <Route exact path='/details/device/:id?' component={WizardPage}/>
               <Route exact path='/settings/notifications' component={NotificationsPage} />
               <Route exact path='/settings/notification/:id?' component={NotificationPage} />
               <Route exact path='/settings/groups' component={GroupsPage} />
@@ -81,6 +83,7 @@ useEffect(() => {
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
               <Route exact path='/reports/chart' component={ChartReportPage} />
+
             </Switch>
           )}
         </Route>

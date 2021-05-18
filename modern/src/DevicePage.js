@@ -1,161 +1,177 @@
-import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import MainToolbar from './MainToolbar';
-import DeviceDetailsForm from './form/DeviceDetailsForm';
+import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  button: {
-    marginRight: theme.spacing(1),
-  },
-  instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+import t from './common/localization';
+import EditItemView from './EditItemView';
+import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControlLabel, Checkbox } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EditAttributesView from './attributes/EditAttributesView';
+import deviceAttributes from './attributes/deviceAttributes';
+import SelectField from './form/SelectField';
+import { deviceCategories } from './common/deviceCategories';
+import LinkField from './form/LinkField';
+import { prefixString } from './common/stringUtils';
+
+const useStyles = makeStyles(() => ({
+  details: {
+    flexDirection: 'column',
   },
 }));
 
-function getSteps() {
-  return [
-      'Device Details',
-      'Customer Details',
-      'Specification',
-      'Engine & Transmission',
-      'Wheel & Tyres',
-      'Fluids',
-      'Settings',
-    ];
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <DeviceDetailsForm />
-    case 1:
-      return 'What is an ad group anyways?';
-    case 2:
-      return 'This is the bit I really care about!';
-    default:
-      return 'Unknown step';
-  }
-}
-
-export default function HorizontalLinearStepper() {
+const DevicePage = () => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-  const steps = getSteps();
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  const [item, setItem] = useState();
 
   return (
-    <>
-    <MainToolbar />
-    <div className={classes.root}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = <Typography variant="caption">Optional</Typography>;
+    <EditItemView endpoint="devices" item={item} setItem={setItem}>
+      {item &&
+        <>
+          <Accordion defaultExpanded>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
+                {t('sharedRequired')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <TextField
+                margin="normal"
+                value={item.name || ''}
+                onChange={event => setItem({...item, name: event.target.value})}
+                label={t('sharedName')}
+                variant="filled" />
+              <TextField
+                margin="normal"
+                value={item.uniqueId || ''}
+                onChange={event => setItem({...item, uniqueId: event.target.value})}
+                label={t('deviceIdentifier')}
+                variant="filled" />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
+                {t('sharedExtra')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <SelectField
+                margin="normal"
+                value={item.groupId || 0}
+                onChange={event => setItem({...item, groupId: Number(event.target.value)})}
+                endpoint="/api/groups"
+                label={t('groupParent')}
+                variant="filled" />
+              <TextField
+                margin="normal"
+                value={item.phone || ''}
+                onChange={event => setItem({...item, phone: event.target.value})}
+                label={t('sharedPhone')}
+                variant="filled" />
+              <TextField
+                margin="normal"
+                value={item.model || ''}
+                onChange={event => setItem({...item, model: event.target.value})}
+                label={t('deviceModel')}
+                variant="filled" />
+              <TextField
+                margin="normal"
+                value={item.contact || ''}
+                onChange={event => setItem({...item, contact: event.target.value})}
+                label={t('deviceContact')}
+                variant="filled" />
+              <SelectField
+                margin="normal"
+                value={item.category || 'default'}
+                emptyValue={null}
+                onChange={event => setItem({...item, category: event.target.value})}
+                data={deviceCategories.map(category => ({
+                  id: category,
+                  name: t(`category${category.replace(/^\w/, c => c.toUpperCase())}`)
+                }))}
+                label={t('deviceCategory')}
+                variant="filled" />
+              <FormControlLabel
+                control={<Checkbox checked={item.disabled} onChange={event => setItem({...item, disabled: event.target.checked})} />}
+                label={t('sharedDisabled')} />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
+                {t('sharedAttributes')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <EditAttributesView
+                attributes={item.attributes}
+                setAttributes={attributes => setItem({...item, attributes})}
+                definitions={deviceAttributes}
+                />
+            </AccordionDetails>
+          </Accordion>
+          {item.id &&
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedConnections')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/geofences"
+                  endpointLinked={"/api/geofences?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="geofenceId"
+                  label={t('sharedGeofences')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/notifications"
+                  endpointLinked={"/api/notifications?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="notificationId"
+                  titleGetter={it => t(prefixString('event', it.type))}
+                  label={t('sharedNotifications')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/drivers"
+                  endpointLinked={"/api/drivers?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="driverId"
+                  label={t('sharedDrivers')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/attributes/computed"
+                  endpointLinked={"/api/attributes/computed?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="attributeId"
+                  titleGetter={it => it.description}
+                  label={t('sharedComputedAttributes')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/maintenance"
+                  endpointLinked={"/api/maintenance?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="maintenanceId"
+                  label={t('sharedMaintenance')}
+                  variant="filled" />                                                       
+              </AccordionDetails>
+            </Accordion>
           }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-            <div>
-              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                Back
-              </Button>
-              {isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                  className={classes.button}
-                >
-                  Skip
-                </Button>
-              )}
-
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-    </>
+        </>
+      }
+    </EditItemView>
   );
 }
+
+export default DevicePage;
