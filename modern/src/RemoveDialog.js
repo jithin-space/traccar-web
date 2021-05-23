@@ -11,7 +11,7 @@ const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
     const response = await fetch(`/api/${endpoint}/${itemId}`, { method: 'DELETE' });
     if (response.ok) {
       onResult(true);
-    }
+   }  
   };
 
   return (

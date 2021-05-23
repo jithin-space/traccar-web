@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useHistory } from 'react-router-dom';
 import { useEffectAsync } from './reactHelper';
+import axios from 'axios';
 
 const displayNotifications = events => {
   if ("Notification" in window) {
@@ -44,8 +45,8 @@ const SocketController = () => {
       if (data.devices) {
         messages['actions'].push(data.devices);
       }
-      if (data.positions) {
-        messages['positions'].push(data.positions);
+      if (data.positions) {   
+        //dispatch(positionsActions.update(data.positions));   //code to update positions via websocket
       }
       if (data.events) {
         displayNotifications(data.events);
@@ -93,6 +94,27 @@ const SocketController = () => {
     // };
   }
 
+  const fetchPositions = async (src) => {
+    try {
+      
+      const {data: res} = await axios('http://fleet.revitsone.com/api/positions', {
+        cancelToken: src.token,
+        auth: {
+          username: 'redcross@revitsone.com',
+          password: 'redcross123'
+        }
+      });  
+      dispatch(positionsActions.refresh(await res));
+
+    } catch(err) {
+      console.log(err);
+      if (axios.isCancel(err)) { //clean up resources on unmount
+      } else {
+          throw err
+      }
+    }
+  }
+
   useEffectAsync(async () => {
     const response = await fetch('/api/server');
     if (response.ok) {
@@ -101,11 +123,17 @@ const SocketController = () => {
   }, []);
 
   useEffectAsync(async () => {
+    const source = axios.CancelToken.source();
+
     if (authenticated) {
       const response = await fetch('/api/devices');
       if (response.ok) {
         dispatch(devicesActions.refresh(await response.json()));
       }
+      //positions api call at 5s interval
+        const PERIOD = 5
+        setInterval(() => fetchPositions(source), PERIOD * 1000); 
+      //
       connectSocket();
     } else {
       const response = await fetch('/api/session');
@@ -115,6 +143,12 @@ const SocketController = () => {
         history.push('/login');
       }
     }
+
+    //cleanup...
+      return () => {
+        source.cancel();
+      }
+
   }, [authenticated]);
 
   return null;
