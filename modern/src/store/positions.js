@@ -9,6 +9,11 @@ const { reducer, actions } = createSlice({
     update(state, action) {
       action.payload.forEach(item => state.items[item['deviceId']] = item);
     },
+    refresh(state, action) {
+      state.items = {}
+      action.payload.forEach(item => state.items[item['deviceId']] = item); //refresh data from position api
+      
+    }
   }
 });
 

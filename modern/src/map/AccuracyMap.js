@@ -7,12 +7,15 @@ import { map } from './Map';
 const AccuracyMap = () => {
   const id = 'accuracy';
 
-  const positions = useSelector(state => ({
-    type: 'FeatureCollection',
-    features: Object.values(state.positions.items).filter(position => position.accuracy > 0).map(position =>
-      circle([position.longitude, position.latitude], position.accuracy * 0.001)
-    ),
-  }));
+  const positions = useSelector(state => {
+    //console.log('===========>> value ', state.positions.items);
+    return {
+      type: 'FeatureCollection',
+      features: Object.values(state.positions.items).filter(position => position.accuracy > 0).map(position =>
+        circle([position.longitude, position.latitude], position.accuracy * 0.001))
+      }
+  });
+ 
 
   useEffect(() => {
     map.addSource(id, {
