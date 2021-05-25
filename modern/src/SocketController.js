@@ -97,7 +97,7 @@ const SocketController = () => {
   const fetchPositions = async (src) => {
     try {
       
-      const {data: res} = await axios('http://fleet.revitsone.com/api/positions', {
+      const {data: res} = await axios('/api/positions', {
         cancelToken: src.token,
         auth: {
           username: 'redcross@revitsone.com',
