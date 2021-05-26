@@ -42,6 +42,11 @@ export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => {
   return moment(value).format(format);
 };
 
+export const formatDateTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => {
+  return moment(value).format(format);
+};
+
+
 export const formatDistance = (value, unit) => {
   switch (unit) {
     case 'mi':
@@ -65,6 +70,7 @@ export const formatSpeed = (value, unit) => {
         return `${(value * 1).toFixed(2)} ${t('sharedKn')}`;
   }  
 };
+
 
 export const formatVolume = (value, unit) => {
   switch (unit) {

@@ -83,7 +83,7 @@ const MainToolbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.flex}>
-            Traccar
+            Fleetrac
           </Typography>
           <Button color="inherit" onClick={handleLogout}>{t('loginLogout')}</Button>
         </Toolbar>
@@ -139,6 +139,12 @@ const MainToolbar = () => {
                 <PauseCircleFilledIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportStops')} />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/reports/speed')}>
+              <ListItemIcon>
+                <PauseCircleFilledIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Speed Report'} />
             </ListItem>
             <ListItem button onClick={() => history.push('/reports/summary')}>
               <ListItemIcon>

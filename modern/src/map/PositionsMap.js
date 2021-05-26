@@ -7,12 +7,15 @@ import { map } from './Map';
 import store from '../store';
 import { useHistory } from 'react-router-dom';
 import StatusView from './StatusView';
+import { useDebounce } from 'use-debounce';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
 
   const history = useHistory();
   const devices = useSelector(state => state.devices.items);
+
+ const [debouncedPositions] = useDebounce(positions, 5000);
 
   const createFeature = (devices, position) => {
     const device = devices[position.deviceId] || null;
@@ -56,8 +59,53 @@ const PositionsMap = ({ positions }) => {
       'data': {
         type: 'FeatureCollection',
         features: [],
+      },
+      'cluster':true,
+      clusterMaxZoom: 14,
+      clusterRadius: 50,
+    });
+
+    map.addLayer({
+      'id': 'clusters',
+      'type': 'circle',
+      'source': id,
+      'filter': ['has', 'point_count'],
+      paint: {
+        "circle-color": [
+          'step',
+          ['get', 'point_count'],
+          '#51bbd6',
+          100,
+          '#f1f075',
+          750,
+          '#f28cb1',
+        ],
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          20,
+          100,
+          30,
+          750,
+          40
+        ]
       }
     });
+
+    map.addLayer({
+    'id': 'cluster-count',
+    'type': 'symbol',
+    'source': id,
+    'filter': ['has', 'point_count'],
+    'layout': {
+    'text-field': '{point_count_abbreviated}',
+    'text-font': ['Roboto Regular'],
+    'text-size': 12
+    }
+    });
+
+    
+
     map.addLayer({
       'id': id,
       'type': 'symbol',
@@ -89,24 +137,47 @@ const PositionsMap = ({ positions }) => {
       map.off('mouseleave', id, onMouseLeave);
       map.off('click', id, onClickCallback);
 
+      map.removeLayer('clusters');
+      map.removeLayer('cluster-count');
       map.removeLayer(id);
       map.removeSource(id);
     };
   }, [onClickCallback]);
 
+  // useEffect(() => {
+
+  //   console.log('normal update');
+
+  //   map.getSource(id).setData({
+  //     type: 'FeatureCollection',
+  //     features: positions.map(position => ({
+  //       type: 'Feature',
+  //       geometry: {
+  //         type: 'Point',
+  //         coordinates: [position.longitude, position.latitude],
+  //       },
+  //       properties: createFeature(devices, position),
+  //     }))
+  //   });
+  // }, [devices, positions]);
+
+
   useEffect(() => {
-    map.getSource(id).setData({
-      type: 'FeatureCollection',
-      features: positions.map(position => ({
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [position.longitude, position.latitude],
-        },
-        properties: createFeature(devices, position),
-      }))
-    });
-  }, [devices, positions]);
+    if(debouncedPositions) {
+      console.log('debounce map');
+      map.getSource(id).setData({
+        type: 'FeatureCollection',
+        features: positions.map(position => ({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [position.longitude, position.latitude],
+          },
+          properties: createFeature(devices, position),
+        }))
+      });
+    }
+  },[debouncedPositions]);
 
   return null;
 }

@@ -34,6 +34,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   const items = useSelector(state => Object.values(state.devices.items));
 
   useEffectAsync(async () => {
+    localStorage.clear();
     const response = await fetch('/api/devices');
     if (response.ok) {
       dispatch(devicesActions.refresh(await response.json()));
@@ -66,7 +67,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
 
 const DevicesList = () => {
   return (
-    <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
+    <EditCollectionView content={DeviceView} editPath="/details/device" endpoint="devices" />
   );
 }
 
