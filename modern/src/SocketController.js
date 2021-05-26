@@ -25,8 +25,7 @@ const displayNotifications = events => {
 const SocketController = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const authenticated = useSelector(state => !!state.session.user); 
-  const userData = useSelector(state => state.session.user);
+  const authenticated = useSelector(state => !!state.session.user);
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -119,10 +118,13 @@ const SocketController = () => {
   const fetchPositions = async (src) => {
     try {
       
-      const {data: res} = await axios('/api/positions', {
-        cancelToken: src.token
+      const {data: res} = await axios('http://fleet.revitsone.com/api/positions', {
+        cancelToken: src.token,
+        auth: {
+          username: 'redcross@revitsone.com',
+          password: 'redcross123'
+        }
       });  
-     //console.log('>> positions', res);
       dispatch(positionsActions.refresh(await res));
 
     } catch(err) {
@@ -150,7 +152,7 @@ const SocketController = () => {
         dispatch(devicesActions.refresh(await response.json()));
       }
       //positions api call at 5s interval
-        const PERIOD = 10
+        const PERIOD = 5
         setInterval(() => fetchPositions(source), PERIOD * 1000); 
       //
       connectSocket();
