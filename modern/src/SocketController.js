@@ -94,36 +94,12 @@ const SocketController = () => {
     // };
   }
 
+
   const fetchPositions = async (src) => {
     try {
       
       const {data: res} = await axios('/api/positions', {
-        cancelToken: src.token,
-        auth: {
-          username: 'redcross@revitsone.com',
-          password: 'redcross123'
-        }
-      });  
-      dispatch(positionsActions.refresh(await res));
-
-    } catch(err) {
-      console.log(err);
-      if (axios.isCancel(err)) { //clean up resources on unmount
-      } else {
-          throw err
-      }
-    }
-  }
-
-  const fetchPositions = async (src) => {
-    try {
-      
-      const {data: res} = await axios('http://fleet.revitsone.com/api/positions', {
-        cancelToken: src.token,
-        auth: {
-          username: 'redcross@revitsone.com',
-          password: 'redcross123'
-        }
+        cancelToken: src.token,      
       });  
       dispatch(positionsActions.refresh(await res));
 
@@ -151,8 +127,8 @@ const SocketController = () => {
       if (response.ok) {
         dispatch(devicesActions.refresh(await response.json()));
       }
-      //positions api call at 5s interval
-        const PERIOD = 5
+      //positions api call at 10-20s interval
+        const PERIOD = 10
         setInterval(() => fetchPositions(source), PERIOD * 1000); 
       //
       connectSocket();
